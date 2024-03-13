@@ -1,6 +1,8 @@
-﻿using System;
+﻿//Код взят из интернета и проверен на наличие вредоносных частей
+//Чтение из Excel Файла выполняется с помощью библиотеки OpenXml
+
+using System;
 using System.Linq;
-using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 

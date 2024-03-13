@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ExcelReader.Reader;
@@ -42,7 +38,7 @@ namespace WorkProject1
 
         private void LoadCellsBtn_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
+            dataGridView1.Rows.Clear(); //Выключаем все кнопки и поля ввода
             CalculateBtn.Enabled = false;
             LoadCellsBtn.Enabled = false;
             LoadFileBtn.Enabled = false;
@@ -52,7 +48,7 @@ namespace WorkProject1
             progressBar1.Visible = true;
             Task task = Task.Run(() =>
             {
-                string R = "";
+                string R = "";//Получение номера (обозначения) начального столбца и номер начальной строки
                 string C = "";
                 bool numbers = false;
                 for (int i = 0; i < CellTextBox.Text.Length; i++)
@@ -63,18 +59,18 @@ namespace WorkProject1
                     else C += sym;
                 }
                 int r = int.Parse(R);
-                int c = CollumnNumber(C);
+                int c = ColumnNumber(C);
                 int rows = 0;
                 {
                     int _r = r;
                     int _c = c;
                     while (true)
                     {
-                        string
-                            str1 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{CollumnLabel(_c)}{_r}"),
-                            str2 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{CollumnLabel(_c + 1)}{_r}"),
-                            str3 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{CollumnLabel(_c + 2)}{_r}"),
-                            str4 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{CollumnLabel(_c + 3)}{_r}");
+                        string //Получение значений из четырёх столбцов таблицы и преобразование их в числа. Загрузка останавливается при достижении нечислового значения
+                            str1 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c)}{_r}"),
+                            str2 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 1)}{_r}"),
+                            str3 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 2)}{_r}"),
+                            str4 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 3)}{_r}");
                         if (
                             !decimal.TryParse(str1, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec1) ||
                             !decimal.TryParse(str2, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec2) ||
@@ -86,7 +82,7 @@ namespace WorkProject1
                             rows++;
                             try
                             {
-                                Invoke(new InvokeDelegate(() =>
+                                Invoke(new InvokeDelegate(() => //Запись во внутреннюю таблицу и обновление счетчика
                                 {
                                     IndexingLabel.Text = $"Запись. Записано {rows} строк";
                                     dataGridView1.Rows.Add(
@@ -108,7 +104,7 @@ namespace WorkProject1
                 }
                 try
                 {
-                    Invoke(new InvokeDelegate(()=> {
+                    Invoke(new InvokeDelegate(()=> {//Включение элементов управления
                         progressBar1.Style = ProgressBarStyle.Blocks;
                         progressBar1.Value = 0;
                         progressBar1.Maximum = rows;
@@ -125,7 +121,7 @@ namespace WorkProject1
         }
 
         private void CellTextBox_TextChanged(object sender, EventArgs e)
-        {
+        {//Проверка адреса ячейки (Загрузка невозможна при неверном адресе
             bool numbers = false;
             if (CellTextBox.Text.Length > 0)
             {
@@ -159,7 +155,7 @@ namespace WorkProject1
         }
 
         private void SheetTextBox_TextChanged(object sender, EventArgs e)
-        {
+        {//Проверка названия листа (Ввод ячейки невозможен при неправильном названии)
             if (GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, "A1") == null) {
                 SheetErrorLabel.Text = "Лист не существует в этой таблице";
                 CellTextBox.Enabled = false;
@@ -173,10 +169,10 @@ namespace WorkProject1
         }
 
         private void CalculateBtn_Click(object sender, EventArgs e)
-        {
+        {//Расчеты (aft - Корма, nose - Нос, mass - ЦМ
             decimal Xc, Yc;
-            {
-                decimal 
+            { //вычисление координат центра циркуляции Xc и Yc
+                decimal
                     Xc_aft = Sum(data[0].ToArray()) / data[0].Count,
                     Yc_aft = Sum(data[1].ToArray()) / data[1].Count,
                     Xc_nose = Sum(data[2].ToArray()) / data[2].Count,
@@ -184,7 +180,7 @@ namespace WorkProject1
                 Xc = (Xc_aft + Xc_nose) / 2;
                 Yc = (Yc_aft + Yc_nose) / 2;
             }
-            decimal[] 
+            decimal[] //вычисление мгновенных радиусов циркуляции (по стр.206)
                 DX_aft = Array.ConvertAll(data[0].ToArray(), delegate (decimal input) { return input - Xc; }),
                 DY_aft = Array.ConvertAll(data[1].ToArray(), delegate (decimal input) { return input - Yc; }),
                 DX_nose = Array.ConvertAll(data[2].ToArray(), delegate (decimal input) { return input - Xc; }), 
@@ -192,7 +188,7 @@ namespace WorkProject1
                 R_aft = new decimal[DX_aft.Length], R_nose = new decimal[DX_nose.Length], R_mass = new decimal[R_nose.Length];
             decimal L;
             Form2 getGPSLength = new Form2();
-            DialogResult result = getGPSLength.ShowDialog();
+            DialogResult result = getGPSLength.ShowDialog(); //Запрос расстояния между датчиками GPS судна
             if (result == DialogResult.OK)
             {
                 L = getGPSLength.Out;
@@ -208,7 +204,7 @@ namespace WorkProject1
                 R_nose[i] = Sqrt(Pow(DX_nose[i], 2) + Pow(DY_nose[i], 2));
                 R_mass[i] = 0.5m * Sqrt(2 * Pow(R_aft[i], 2) + 2 * Pow(R_nose[i],2)-Pow(L,2));
             }
-            decimal[] alpha_aft = new decimal[R_aft.Length], alpha_mass = new decimal[R_nose.Length];
+            decimal[] alpha_aft = new decimal[R_aft.Length], alpha_mass = new decimal[R_nose.Length]; // вычисление Углов дрейфа
             for(int i = 0; i < alpha_aft.Length; i++)
             {
                 alpha_aft[i] = (Pi / 2) - ACos((Pow(R_aft[i], 2) - Pow(R_mass[i], 2) + 0.25m * Pow(L, 2)) / (2 * R_aft[i] * L));
@@ -221,7 +217,7 @@ namespace WorkProject1
             D_mass.Text = ((r_mass = Sum(R_mass) / R_mass.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
             a_aft.Text = ((angle_aft = Sum(alpha_aft) / alpha_aft.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
             a_mass.Text = ((angle_mass = Sum(alpha_mass) / alpha_mass.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
-            decimal[] mi_r_aft, mi_r_mass, mi_a_aft, mi_a_mass;
+            decimal[] mi_r_aft, mi_r_mass, mi_a_aft, mi_a_mass;//вычисление средней квадратической погрешности
             mi_r_aft = new decimal[data[0].Count]; mi_r_mass = new decimal[data[1].Count]; mi_a_aft = new decimal[data[2].Count]; mi_a_mass = new decimal[data[3].Count];
             for (int i = 0; i < data[0].Count; i++)
             {
