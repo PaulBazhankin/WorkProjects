@@ -68,25 +68,28 @@ namespace WorkProject1
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
             this.label1.Location = new System.Drawing.Point(12, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
+            this.label1.Size = new System.Drawing.Size(100, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Лист с данными";
             // 
             // SheetErrorLabel
             // 
             this.SheetErrorLabel.AutoSize = true;
+            this.SheetErrorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
             this.SheetErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.SheetErrorLabel.Location = new System.Drawing.Point(12, 77);
+            this.SheetErrorLabel.Location = new System.Drawing.Point(12, 79);
             this.SheetErrorLabel.Name = "SheetErrorLabel";
-            this.SheetErrorLabel.Size = new System.Drawing.Size(0, 13);
+            this.SheetErrorLabel.Size = new System.Drawing.Size(0, 15);
             this.SheetErrorLabel.TabIndex = 2;
             // 
             // SheetTextBox
             // 
             this.SheetTextBox.Enabled = false;
-            this.SheetTextBox.Location = new System.Drawing.Point(12, 54);
+            this.SheetTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.SheetTextBox.Location = new System.Drawing.Point(12, 56);
             this.SheetTextBox.Name = "SheetTextBox";
             this.SheetTextBox.Size = new System.Drawing.Size(100, 20);
             this.SheetTextBox.TabIndex = 3;
@@ -95,16 +98,18 @@ namespace WorkProject1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 90);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label3.Location = new System.Drawing.Point(9, 94);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(183, 13);
+            this.label3.Size = new System.Drawing.Size(211, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Начальная (верхняя левая) ячейка";
             // 
             // CellTextBox
             // 
             this.CellTextBox.Enabled = false;
-            this.CellTextBox.Location = new System.Drawing.Point(12, 106);
+            this.CellTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.CellTextBox.Location = new System.Drawing.Point(12, 112);
             this.CellTextBox.Name = "CellTextBox";
             this.CellTextBox.Size = new System.Drawing.Size(100, 20);
             this.CellTextBox.TabIndex = 5;
@@ -113,17 +118,19 @@ namespace WorkProject1
             // CellErrorLabel
             // 
             this.CellErrorLabel.AutoSize = true;
+            this.CellErrorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
             this.CellErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.CellErrorLabel.Location = new System.Drawing.Point(12, 129);
+            this.CellErrorLabel.Location = new System.Drawing.Point(12, 135);
             this.CellErrorLabel.Name = "CellErrorLabel";
-            this.CellErrorLabel.Size = new System.Drawing.Size(0, 13);
+            this.CellErrorLabel.Size = new System.Drawing.Size(0, 15);
             this.CellErrorLabel.TabIndex = 6;
             // 
             // LoadFileBtn
             // 
-            this.LoadFileBtn.Location = new System.Drawing.Point(12, 12);
+            this.LoadFileBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.LoadFileBtn.Location = new System.Drawing.Point(12, 5);
             this.LoadFileBtn.Name = "LoadFileBtn";
-            this.LoadFileBtn.Size = new System.Drawing.Size(126, 23);
+            this.LoadFileBtn.Size = new System.Drawing.Size(157, 30);
             this.LoadFileBtn.TabIndex = 7;
             this.LoadFileBtn.Text = "Загрузить Excel файл";
             this.LoadFileBtn.UseVisualStyleBackColor = true;
@@ -132,9 +139,10 @@ namespace WorkProject1
             // LoadCellsBtn
             // 
             this.LoadCellsBtn.Enabled = false;
-            this.LoadCellsBtn.Location = new System.Drawing.Point(12, 146);
+            this.LoadCellsBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.LoadCellsBtn.Location = new System.Drawing.Point(12, 153);
             this.LoadCellsBtn.Name = "LoadCellsBtn";
-            this.LoadCellsBtn.Size = new System.Drawing.Size(126, 23);
+            this.LoadCellsBtn.Size = new System.Drawing.Size(126, 25);
             this.LoadCellsBtn.TabIndex = 8;
             this.LoadCellsBtn.Text = "Загрузить данные";
             this.LoadCellsBtn.UseVisualStyleBackColor = true;
@@ -162,12 +170,12 @@ namespace WorkProject1
             this.Column1,
             this.Column2});
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(346, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(432, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(506, 363);
+            this.dataGridView1.Size = new System.Drawing.Size(420, 363);
             this.dataGridView1.TabIndex = 9;
             // 
             // id
@@ -211,9 +219,10 @@ namespace WorkProject1
             // CalculateBtn
             // 
             this.CalculateBtn.Enabled = false;
-            this.CalculateBtn.Location = new System.Drawing.Point(12, 175);
+            this.CalculateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.CalculateBtn.Location = new System.Drawing.Point(12, 182);
             this.CalculateBtn.Name = "CalculateBtn";
-            this.CalculateBtn.Size = new System.Drawing.Size(126, 23);
+            this.CalculateBtn.Size = new System.Drawing.Size(126, 25);
             this.CalculateBtn.TabIndex = 11;
             this.CalculateBtn.Text = "Рассчитать";
             this.CalculateBtn.UseVisualStyleBackColor = true;
@@ -222,9 +231,10 @@ namespace WorkProject1
             // IndexingLabel
             // 
             this.IndexingLabel.AutoSize = true;
-            this.IndexingLabel.Location = new System.Drawing.Point(144, 150);
+            this.IndexingLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.IndexingLabel.Location = new System.Drawing.Point(144, 157);
             this.IndexingLabel.Name = "IndexingLabel";
-            this.IndexingLabel.Size = new System.Drawing.Size(154, 13);
+            this.IndexingLabel.Size = new System.Drawing.Size(171, 15);
             this.IndexingLabel.TabIndex = 12;
             this.IndexingLabel.Text = "Здесь будет статус загрузки";
             // 
@@ -242,9 +252,10 @@ namespace WorkProject1
             // D_aft
             // 
             this.D_aft.AutoSize = true;
-            this.D_aft.Location = new System.Drawing.Point(172, 214);
+            this.D_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.D_aft.Location = new System.Drawing.Point(190, 223);
             this.D_aft.Name = "D_aft";
-            this.D_aft.Size = new System.Drawing.Size(13, 13);
+            this.D_aft.Size = new System.Drawing.Size(14, 15);
             this.D_aft.TabIndex = 14;
             this.D_aft.TabStop = true;
             this.D_aft.Text = "0";
@@ -253,36 +264,40 @@ namespace WorkProject1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 201);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label4.Location = new System.Drawing.Point(9, 208);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(214, 13);
+            this.label4.Size = new System.Drawing.Size(247, 15);
             this.label4.TabIndex = 15;
             this.label4.Text = "Результаты. (нажмите для копирования)";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 214);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label5.Location = new System.Drawing.Point(9, 223);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(154, 13);
+            this.label5.Size = new System.Drawing.Size(175, 15);
             this.label5.TabIndex = 16;
             this.label5.Text = "Диаметр циркуяции (Корма):";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 227);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label6.Location = new System.Drawing.Point(9, 238);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(142, 13);
+            this.label6.Size = new System.Drawing.Size(160, 15);
             this.label6.TabIndex = 18;
             this.label6.Text = "Диаметр циркуляции (ЦТ):";
             // 
             // D_mass
             // 
             this.D_mass.AutoSize = true;
-            this.D_mass.Location = new System.Drawing.Point(172, 227);
+            this.D_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.D_mass.Location = new System.Drawing.Point(190, 238);
             this.D_mass.Name = "D_mass";
-            this.D_mass.Size = new System.Drawing.Size(13, 13);
+            this.D_mass.Size = new System.Drawing.Size(14, 15);
             this.D_mass.TabIndex = 17;
             this.D_mass.TabStop = true;
             this.D_mass.Text = "0";
@@ -291,18 +306,20 @@ namespace WorkProject1
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 240);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label7.Location = new System.Drawing.Point(9, 253);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(118, 13);
+            this.label7.Size = new System.Drawing.Size(135, 15);
             this.label7.TabIndex = 20;
             this.label7.Text = "Угол дрейфа (Корма):";
             // 
             // a_aft
             // 
             this.a_aft.AutoSize = true;
-            this.a_aft.Location = new System.Drawing.Point(172, 240);
+            this.a_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.a_aft.Location = new System.Drawing.Point(190, 253);
             this.a_aft.Name = "a_aft";
-            this.a_aft.Size = new System.Drawing.Size(13, 13);
+            this.a_aft.Size = new System.Drawing.Size(14, 15);
             this.a_aft.TabIndex = 19;
             this.a_aft.TabStop = true;
             this.a_aft.Text = "0";
@@ -311,18 +328,20 @@ namespace WorkProject1
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 253);
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label8.Location = new System.Drawing.Point(9, 268);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(100, 13);
+            this.label8.Size = new System.Drawing.Size(113, 15);
             this.label8.TabIndex = 22;
             this.label8.Text = "Угол дрейфа (ЦТ):";
             // 
             // a_mass
             // 
             this.a_mass.AutoSize = true;
-            this.a_mass.Location = new System.Drawing.Point(172, 253);
+            this.a_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.a_mass.Location = new System.Drawing.Point(190, 268);
             this.a_mass.Name = "a_mass";
-            this.a_mass.Size = new System.Drawing.Size(13, 13);
+            this.a_mass.Size = new System.Drawing.Size(14, 15);
             this.a_mass.TabIndex = 21;
             this.a_mass.TabStop = true;
             this.a_mass.Text = "0";
@@ -331,51 +350,60 @@ namespace WorkProject1
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(256, 201);
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.label9.Location = new System.Drawing.Point(262, 208);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(32, 13);
+            this.label9.Size = new System.Drawing.Size(81, 15);
             this.label9.TabIndex = 23;
-            this.label9.Text = "СКП:";
+            this.label9.Text = "СКП (68.3%):";
             // 
             // m_an_mass
             // 
             this.m_an_mass.AutoSize = true;
-            this.m_an_mass.Location = new System.Drawing.Point(256, 253);
+            this.m_an_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.m_an_mass.Location = new System.Drawing.Point(262, 268);
             this.m_an_mass.Name = "m_an_mass";
-            this.m_an_mass.Size = new System.Drawing.Size(13, 13);
+            this.m_an_mass.Size = new System.Drawing.Size(14, 15);
             this.m_an_mass.TabIndex = 27;
             this.m_an_mass.TabStop = true;
             this.m_an_mass.Text = "0";
+            this.m_an_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_an_aft
             // 
             this.m_an_aft.AutoSize = true;
-            this.m_an_aft.Location = new System.Drawing.Point(256, 240);
+            this.m_an_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.m_an_aft.Location = new System.Drawing.Point(262, 253);
             this.m_an_aft.Name = "m_an_aft";
-            this.m_an_aft.Size = new System.Drawing.Size(13, 13);
+            this.m_an_aft.Size = new System.Drawing.Size(14, 15);
             this.m_an_aft.TabIndex = 26;
             this.m_an_aft.TabStop = true;
             this.m_an_aft.Text = "0";
+            this.m_an_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_d_mass
             // 
             this.m_d_mass.AutoSize = true;
-            this.m_d_mass.Location = new System.Drawing.Point(256, 227);
+            this.m_d_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.m_d_mass.Location = new System.Drawing.Point(262, 238);
             this.m_d_mass.Name = "m_d_mass";
-            this.m_d_mass.Size = new System.Drawing.Size(13, 13);
+            this.m_d_mass.Size = new System.Drawing.Size(14, 15);
             this.m_d_mass.TabIndex = 25;
             this.m_d_mass.TabStop = true;
             this.m_d_mass.Text = "0";
+            this.m_d_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_d_aft
             // 
             this.m_d_aft.AutoSize = true;
-            this.m_d_aft.Location = new System.Drawing.Point(256, 214);
+            this.m_d_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
+            this.m_d_aft.Location = new System.Drawing.Point(262, 223);
             this.m_d_aft.Name = "m_d_aft";
-            this.m_d_aft.Size = new System.Drawing.Size(13, 13);
+            this.m_d_aft.Size = new System.Drawing.Size(14, 15);
             this.m_d_aft.TabIndex = 24;
             this.m_d_aft.TabStop = true;
             this.m_d_aft.Text = "0";
+            this.m_d_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // MainWindow
             // 
