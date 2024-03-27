@@ -39,11 +39,6 @@ namespace WorkProject1
             this.LoadCellsBtn = new System.Windows.Forms.Button();
             this.OpenExcelFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.CalculateBtn = new System.Windows.Forms.Button();
             this.IndexingLabel = new System.Windows.Forms.Label();
@@ -62,6 +57,11 @@ namespace WorkProject1
             this.m_an_aft = new System.Windows.Forms.LinkLabel();
             this.m_d_mass = new System.Windows.Forms.LinkLabel();
             this.m_d_aft = new System.Windows.Forms.LinkLabel();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -177,36 +177,6 @@ namespace WorkProject1
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView1.Size = new System.Drawing.Size(420, 363);
             this.dataGridView1.TabIndex = 9;
-            // 
-            // id
-            // 
-            this.id.HeaderText = "#";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Корма X";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Корма Y";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "ЦМ X";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "ЦМ Y";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
             // 
             // progressBar1
             // 
@@ -405,6 +375,36 @@ namespace WorkProject1
             this.m_d_aft.Text = "0";
             this.m_d_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
+            // id
+            // 
+            this.id.HeaderText = "#";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Корма X";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Корма Y";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Нос X";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Нос Y";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,11 +458,6 @@ namespace WorkProject1
         private System.Windows.Forms.OpenFileDialog OpenExcelFileDialog;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.Button CalculateBtn;
         private System.Windows.Forms.Label IndexingLabel;
         private System.Windows.Forms.Label label2;
@@ -480,6 +475,11 @@ namespace WorkProject1
         private System.Windows.Forms.LinkLabel m_an_aft;
         private System.Windows.Forms.LinkLabel m_d_mass;
         private System.Windows.Forms.LinkLabel m_d_aft;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
     }
 }
 
