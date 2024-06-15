@@ -2,6 +2,7 @@
 //Чтение из Excel Файла выполняется с помощью библиотеки OpenXml
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -10,6 +11,21 @@ namespace ExcelReader
 {
     public class Reader
     {
+        public static IEnumerable<Sheet> GetSheets(string fileName)
+        {
+            try
+            {
+                using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
+                {
+                    WorkbookPart wbPart = document.WorkbookPart;
+                    return wbPart.Workbook.Descendants<Sheet>();
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public static string GetCellValue(string fileName, string sheetName, string addressName)
         {
             string value = "";
@@ -18,11 +34,7 @@ namespace ExcelReader
                 using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
                 {
                     WorkbookPart wbPart = document.WorkbookPart;
-                    Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
-                    if (theSheet == null)
-                    {
-                        throw new ArgumentException("sheetName");
-                    }
+                    Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault() ?? throw new ArgumentException("sheetName");
                     WorksheetPart wsPart = (WorksheetPart)(wbPart.GetPartById(theSheet.Id));
                     Cell theCell = wsPart.Worksheet.Descendants<Cell>().Where(c => c.CellReference == addressName).FirstOrDefault();
                     if (theCell != null && theCell.InnerText.Length > 0)

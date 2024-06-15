@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -8,6 +9,7 @@ using static ExcelReader.Reader;
 using static WorkProject1.ExcelHelper;
 using static WorkProject1.MathHelper;
 using static DecimalMath.DecimalEx;
+using System.IO;
 
 namespace WorkProject1
 {
@@ -19,10 +21,6 @@ namespace WorkProject1
         public MainWindow()
         {
             InitializeComponent();
-            data[0] = new List<decimal>();
-            data[1] = new List<decimal>();
-            data[2] = new List<decimal>();
-            data[3] = new List<decimal>();
         }
         private void LoadFileBtn_Click(object sender, EventArgs e)
         {
@@ -31,9 +29,16 @@ namespace WorkProject1
 
         private void OpenExcelFileDialog_FileOK(object sender, CancelEventArgs e)
         {
-            SheetTextBox.Enabled = true;
+            SheetSelect.Enabled = true;
             fileOpened = true;
+            SheetSelect.Items.Clear();
+            foreach(Sheet item in GetSheets(OpenExcelFileDialog.FileName))
+            {
+                SheetSelect.Items.Add(item.Name);
+            }
             CellTextBox_TextChanged(sender, e);
+            SheetSelect.SelectedIndex = 0;
+            SheetSelect_SelectedIndexChanged(sender, e);
         }
 
         private void LoadCellsBtn_Click(object sender, EventArgs e)
@@ -42,81 +47,106 @@ namespace WorkProject1
             CalculateBtn.Enabled = false;
             LoadCellsBtn.Enabled = false;
             LoadFileBtn.Enabled = false;
-            SheetTextBox.Enabled = false;
+            SheetSelect.Enabled = false;
             CellTextBox.Enabled = false;
             progressBar1.Style = ProgressBarStyle.Marquee;
             progressBar1.Visible = true;
+            data[0] = new List<decimal>();
+            data[1] = new List<decimal>();
+            data[2] = new List<decimal>();
+            data[3] = new List<decimal>();
             Task task = Task.Run(() =>
             {
-                string R = "";//Получение номера (обозначения) начального столбца и номер начальной строки
-                string C = "";
-                bool numbers = false;
-                for (int i = 0; i < CellTextBox.Text.Length; i++)
-                {
-                    char sym = CellTextBox.Text.ToUpper()[i];
-                    if (char.IsDigit(sym)) numbers = true;
-                    if (numbers) R += sym;
-                    else C += sym;
-                }
-                int r = int.Parse(R);
-                int c = ColumnNumber(C);
-                int rows = 0;
-                {
-                    int _r = r;
-                    int _c = c;
-                    while (true)
-                    {
-                        string //Получение значений из четырёх столбцов таблицы и преобразование их в числа. Загрузка останавливается при достижении нечислового значения
-                            str1 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c)}{_r}"),
-                            str2 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 1)}{_r}"),
-                            str3 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 2)}{_r}"),
-                            str4 = GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(_c + 3)}{_r}");
-                        if (
-                            !decimal.TryParse(str1, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec1) ||
-                            !decimal.TryParse(str2, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec2) ||
-                            !decimal.TryParse(str3, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec3) ||
-                            !decimal.TryParse(str4, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec4)
-                        ) break;
-                        else
-                        {
-                            rows++;
-                            try
-                            {
-                                Invoke(new InvokeDelegate(() => //Запись во внутреннюю таблицу и обновление счетчика
-                                {
-                                    IndexingLabel.Text = $"Запись. Записано {rows} строк";
-                                    dataGridView1.Rows.Add(
-                                        _r - r + 1,
-                                        Math.Round(dec1, 2),
-                                        Math.Round(dec2, 2),
-                                        Math.Round(dec3, 2),
-                                        Math.Round(dec4, 2)
-                                    );
-                                    data[0].Add(dec1);
-                                    data[1].Add(dec2);
-                                    data[2].Add(dec3);
-                                    data[3].Add(dec4);
-                                }));
-                            } catch { }
-                        }
-                        _r++;
-                    }
-                }
                 try
                 {
-                    Invoke(new InvokeDelegate(()=> {//Включение элементов управления
-                        progressBar1.Style = ProgressBarStyle.Blocks;
-                        progressBar1.Value = 0;
-                        progressBar1.Maximum = rows;
-                        IndexingLabel.Text = $"Готово. Записано {rows} строк";
-                        LoadCellsBtn.Enabled = true;
-                        CalculateBtn.Enabled = true;
-                        LoadFileBtn.Enabled = true;
-                        SheetTextBox.Enabled = true;
-                        CellTextBox.Enabled = true;
-                    }));
+                    string R = "";//Получение номера (обозначения) начального столбца и номер начальной строки
+                    string C = "";
+                    bool numbers = false;
+                    for (int i = 0; i < CellTextBox.Text.Length; i++)
+                    {
+                        char sym = CellTextBox.Text.ToUpper()[i];
+                        if (char.IsDigit(sym)) numbers = true;
+                        if (numbers) R += sym;
+                        else C += sym;
+                    }
+                    Console.WriteLine("/////");
+                    int r = int.Parse(R);
+                    int c = ColumnNumber(C);
+                    Console.WriteLine($"{r}:{c}");
+                    int rows = 0;
+                    {
+                        int _r = r;
+                        int _c = c;
+                        Console.WriteLine("/////");
+                        while (true)
+                        {
+                            string str1, str2, str3, str4;
+                            str1 = str2 = str3 = str4 = "";
+                            Invoke(new InvokeDelegate(() =>
+                            {
+                                str1 = GetCellValue(OpenExcelFileDialog.FileName, SheetSelect.SelectedItem.ToString(), $"{ColumnLabel(_c)}{_r}");
+                                str2 = GetCellValue(OpenExcelFileDialog.FileName, SheetSelect.SelectedItem.ToString(), $"{ColumnLabel(_c + 1)}{_r}");
+                                str3 = GetCellValue(OpenExcelFileDialog.FileName, SheetSelect.SelectedItem.ToString(), $"{ColumnLabel(_c + 2)}{_r}");
+                                str4 = GetCellValue(OpenExcelFileDialog.FileName, SheetSelect.SelectedItem.ToString(), $"{ColumnLabel(_c + 3)}{_r}");
+                            }));//Получение значений из четырёх столбцов таблицы и преобразование их в числа. Загрузка останавливается при достижении нечислового значения
+                                
+                            Console.WriteLine(str1);
+                            Console.WriteLine(str2);
+                            Console.WriteLine(str3);
+                            Console.WriteLine(str4);
+                            Console.WriteLine("/////");
+                            if (
+                                !decimal.TryParse(str1, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec1) ||
+                                !decimal.TryParse(str2, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec2) ||
+                                !decimal.TryParse(str3, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec3) ||
+                                !decimal.TryParse(str4, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec4)
+                            ) break;
+                            else
+                            {
+                                rows++;
+                                //try
+                                {
+                                    Invoke(new InvokeDelegate(() => //Запись во внутреннюю таблицу и обновление счетчика
+                                    {
+                                        IndexingLabel.Text = $"Запись. Записано {rows} строк";
+                                        dataGridView1.Rows.Add(
+                                            _r - r + 1,
+                                            Math.Round(dec1, 2),
+                                            Math.Round(dec2, 2),
+                                            Math.Round(dec3, 2),
+                                            Math.Round(dec4, 2)
+                                        );
+                                        data[0].Add(dec1);
+                                        data[1].Add(dec2);
+                                        data[2].Add(dec3);
+                                        data[3].Add(dec4);
+                                    }));
+                                }// catch { }
+                            }
+                            _r++;
+                        }
+                    }
+                    //try
+                    {
+                        Invoke(new InvokeDelegate(() =>
+                        {//Включение элементов управления
+                            progressBar1.Style = ProgressBarStyle.Blocks;
+                            progressBar1.Value = 0;
+                            progressBar1.Maximum = rows;
+                            IndexingLabel.Text = $"Готово. Записано {rows} строк";
+                            LoadCellsBtn.Enabled = true;
+                            CalculateBtn.Enabled = true;
+                            LoadFileBtn.Enabled = true;
+                            SheetSelect.Enabled = true;
+                            CellTextBox.Enabled = true;
+                        }));
+                    }
+                    //catch { }
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             });
         }
 
@@ -152,20 +182,6 @@ namespace WorkProject1
                 return;
             }
             LoadCellsBtn.Enabled = false;
-        }
-
-        private void SheetTextBox_TextChanged(object sender, EventArgs e)
-        {//Проверка названия листа (Ввод ячейки невозможен при неправильном названии)
-            if (GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, "A1") == null) {
-                SheetErrorLabel.Text = "Лист не существует в этой таблице";
-                CellTextBox.Enabled = false;
-                LoadCellsBtn.Enabled = false;
-            }
-            else {
-                SheetErrorLabel.Text = "";
-                CellTextBox.Enabled = true;
-                CellTextBox_TextChanged(sender, e);
-            }
         }
 
         private void CalculateBtn_Click(object sender, EventArgs e)
@@ -239,6 +255,22 @@ namespace WorkProject1
         private void CopyLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText((sender as LinkLabel).Text);
+        }
+
+        private void SheetSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {//Проверка названия листа (Ввод ячейки невозможен при неправильном названии)
+            //if (GetCellValue(OpenExcelFileDialog.FileName, SheetSelect.SelectedItem.ToString(), "A1") == null)
+            //{
+            //    SheetErrorLabel.Text = "Лист не существует в этой таблице";
+            //    CellTextBox.Enabled = false;
+            //    LoadCellsBtn.Enabled = false;
+            //}
+            //else
+            {
+                SheetErrorLabel.Text = "";
+                CellTextBox.Enabled = true;
+                CellTextBox_TextChanged(sender, e);
+            }
         }
     }
 }
