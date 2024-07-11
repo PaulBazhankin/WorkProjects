@@ -3,8 +3,10 @@
 
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+
 
 namespace ExcelReader
 {
@@ -59,6 +61,22 @@ namespace ExcelReader
                 return null;
             }
             return value;
+        }
+
+        public static string[] GetSheets(string fileName)
+        {
+            string[] sheets;
+            using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
+            {
+                WorkbookPart wbPart = document.WorkbookPart;
+                List<string> _sheets = new List<string>();
+                foreach(Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
+                {
+                    _sheets.Add(sheet.Name);
+                }
+                sheets = _sheets.ToArray();
+            }
+            return sheets;
         }
     }
 }
