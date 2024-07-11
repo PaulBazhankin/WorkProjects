@@ -31,7 +31,7 @@ namespace WorkProject1
         {
             this.label1 = new System.Windows.Forms.Label();
             this.SheetErrorLabel = new System.Windows.Forms.Label();
-            this.SheetTextBox = new System.Windows.Forms.TextBox();
+            this.SheetTextBox = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.CellTextBox = new System.Windows.Forms.TextBox();
             this.CellErrorLabel = new System.Windows.Forms.Label();
@@ -39,6 +39,11 @@ namespace WorkProject1
             this.LoadCellsBtn = new System.Windows.Forms.Button();
             this.OpenExcelFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.CalculateBtn = new System.Windows.Forms.Button();
             this.IndexingLabel = new System.Windows.Forms.Label();
@@ -57,11 +62,6 @@ namespace WorkProject1
             this.m_an_aft = new System.Windows.Forms.LinkLabel();
             this.m_d_mass = new System.Windows.Forms.LinkLabel();
             this.m_d_aft = new System.Windows.Forms.LinkLabel();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,7 +91,7 @@ namespace WorkProject1
             this.SheetTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.32F);
             this.SheetTextBox.Location = new System.Drawing.Point(12, 56);
             this.SheetTextBox.Name = "SheetTextBox";
-            this.SheetTextBox.Size = new System.Drawing.Size(100, 20);
+            this.SheetTextBox.Size = new System.Drawing.Size(100, 21);
             this.SheetTextBox.TabIndex = 3;
             this.SheetTextBox.TextChanged += new System.EventHandler(this.SheetTextBox_TextChanged);
             // 
@@ -162,6 +162,8 @@ namespace WorkProject1
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
+            this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
@@ -169,14 +171,46 @@ namespace WorkProject1
             this.Column4,
             this.Column1,
             this.Column2});
+            this.dataGridView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(432, 12);
+            this.dataGridView1.GridColor = System.Drawing.SystemColors.ActiveBorder;
+            this.dataGridView1.Location = new System.Drawing.Point(445, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(420, 363);
+            this.dataGridView1.Size = new System.Drawing.Size(420, 380);
             this.dataGridView1.TabIndex = 9;
+            // 
+            // id
+            // 
+            this.id.HeaderText = "#";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Корма X";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Корма Y";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Нос X";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Нос Y";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             // 
             // progressBar1
             // 
@@ -375,40 +409,11 @@ namespace WorkProject1
             this.m_d_aft.Text = "0";
             this.m_d_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
-            // id
-            // 
-            this.id.HeaderText = "#";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Корма X";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Корма Y";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Нос X";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Нос Y";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(864, 404);
             this.Controls.Add(this.m_an_mass);
             this.Controls.Add(this.m_an_aft);
@@ -449,7 +454,7 @@ namespace WorkProject1
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label SheetErrorLabel;
-        private System.Windows.Forms.TextBox SheetTextBox;
+        private System.Windows.Forms.ComboBox SheetTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox CellTextBox;
         private System.Windows.Forms.Label CellErrorLabel;
