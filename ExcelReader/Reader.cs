@@ -6,53 +6,50 @@ using System.Linq;
 using System.Collections.Generic;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.IO;
 
 
 namespace ExcelReader
 {
-    public class Reader
+    public class Reader : IDisposable
     {
-        public static string GetCellValue(string fileName, string sheetName, string addressName)
+        private Stream file;
+        SpreadsheetDocument document;
+
+        public string GetCellValue(string sheetName, string addressName)
         {
             string value = "";
             try
             {
-                using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
+                WorkbookPart wbPart = document.WorkbookPart;
+                Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault() ?? throw new ArgumentException("sheetName");
+                WorksheetPart wsPart = (WorksheetPart)(wbPart.GetPartById(theSheet.Id));
+                Cell theCell = wsPart.Worksheet.Descendants<Cell>().Where(c => c.CellReference == addressName).FirstOrDefault();
+                if (theCell != null && theCell.InnerText.Length > 0)
                 {
-                    WorkbookPart wbPart = document.WorkbookPart;
-                    Sheet theSheet = wbPart.Workbook.Descendants<Sheet>().Where(s => s.Name == sheetName).FirstOrDefault();
-                    if (theSheet == null)
+                    value = theCell.InnerText;
+                    if (theCell.DataType != null)
                     {
-                        throw new ArgumentException("sheetName");
-                    }
-                    WorksheetPart wsPart = (WorksheetPart)(wbPart.GetPartById(theSheet.Id));
-                    Cell theCell = wsPart.Worksheet.Descendants<Cell>().Where(c => c.CellReference == addressName).FirstOrDefault();
-                    if (theCell != null && theCell.InnerText.Length > 0)
-                    {
-                        value = theCell.InnerText;
-                        if (theCell.DataType != null)
+                        switch (theCell.DataType.Value)
                         {
-                            switch (theCell.DataType.Value)
-                            {
-                                case CellValues.SharedString:
-                                    var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
-                                    if (stringTable != null)
-                                    {
-                                        value = stringTable.SharedStringTable.ElementAt(int.Parse(value)).InnerText;
-                                    }
-                                    break;
-                                case CellValues.Boolean:
-                                    switch (value)
-                                    {
-                                        case "0":
-                                            value = "FALSE";
-                                            break;
-                                        default:
-                                            value = "TRUE";
-                                            break;
-                                    }
-                                    break;
-                            }
+                            case CellValues.SharedString:
+                                var stringTable = wbPart.GetPartsOfType<SharedStringTablePart>().FirstOrDefault();
+                                if (stringTable != null)
+                                {
+                                    value = stringTable.SharedStringTable.ElementAt(int.Parse(value)).InnerText;
+                                }
+                                break;
+                            case CellValues.Boolean:
+                                switch (value)
+                                {
+                                    case "0":
+                                        value = "FALSE";
+                                        break;
+                                    default:
+                                        value = "TRUE";
+                                        break;
+                                }
+                                break;
                         }
                     }
                 }
@@ -63,20 +60,33 @@ namespace ExcelReader
             return value;
         }
 
-        public static string[] GetSheets(string fileName)
+        public string[] GetSheets()
         {
             string[] sheets;
-            using (SpreadsheetDocument document = SpreadsheetDocument.Open(fileName, false))
+            WorkbookPart wbPart = document.WorkbookPart;
+            List<string> _sheets = new List<string>();
+            foreach(Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
             {
-                WorkbookPart wbPart = document.WorkbookPart;
-                List<string> _sheets = new List<string>();
-                foreach(Sheet sheet in wbPart.Workbook.Descendants<Sheet>())
-                {
-                    _sheets.Add(sheet.Name);
-                }
-                sheets = _sheets.ToArray();
+                _sheets.Add(sheet.Name);
             }
+            sheets = _sheets.ToArray();
             return sheets;
+        }
+        public Reader(string fileName)
+        {
+            BinaryReader br = new BinaryReader(File.OpenRead(fileName));
+            file = new MemoryStream(br.ReadBytes((int)br.BaseStream.Length));
+            br.Close();
+            br.Dispose();
+            document = SpreadsheetDocument.Open(file, false);
+        }
+
+        public void Dispose()
+        {
+            document.Close();
+            document.Dispose();
+            file.Close();
+            file.Dispose();
         }
     }
 }

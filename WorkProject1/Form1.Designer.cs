@@ -18,6 +18,10 @@ namespace WorkProject1
             {
                 components.Dispose();
             }
+            if ((reader != null))
+            {
+                reader.Dispose();
+            }
             base.Dispose(disposing);
         }
 

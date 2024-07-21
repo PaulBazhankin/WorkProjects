@@ -4,15 +4,16 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static ExcelReader.Reader;
 using static WorkProject1.ExcelHelper;
 using static WorkProject1.MathHelper;
 using static DecimalMath.DecimalEx;
+using ExcelReader;
 
 namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
+        Reader reader;
         bool fileOpened = false;
         delegate void InvokeDelegate();
         delegate string StrDelegate(int row, int column);
@@ -30,7 +31,9 @@ namespace WorkProject1
         {
             SheetTextBox.Enabled = true;
             fileOpened = true;
-            foreach(string sheet in GetSheets(OpenExcelFileDialog.FileName))
+            reader?.Dispose();
+            reader = new Reader(OpenExcelFileDialog.FileName);
+            foreach(string sheet in reader.GetSheets())
             {
                 SheetTextBox.Items.Add(sheet); SheetTextBox.SelectedIndex = 0;
             }
@@ -71,10 +74,10 @@ namespace WorkProject1
                     while (true)
                     {
                         string //Получение значений из четырёх столбцов таблицы и преобразование их в числа. Загрузка останавливается при достижении нечислового значения
-                            str1 = (string)Invoke(new StrDelegate((int row, int column) => { return GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c),
-                            str2 = (string)Invoke(new StrDelegate((int row, int column) => { return GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 1),
-                            str3 = (string)Invoke(new StrDelegate((int row, int column) => { return GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 2),
-                            str4 = (string)Invoke(new StrDelegate((int row, int column) => { return GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 3);
+                            str1 = (string)Invoke(new StrDelegate((int row, int column) => { return reader.GetCellValue(SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c),
+                            str2 = (string)Invoke(new StrDelegate((int row, int column) => { return reader.GetCellValue(SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 1),
+                            str3 = (string)Invoke(new StrDelegate((int row, int column) => { return reader.GetCellValue(SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 2),
+                            str4 = (string)Invoke(new StrDelegate((int row, int column) => { return reader.GetCellValue(SheetTextBox.Text, $"{ColumnLabel(column)}{row}"); }), _r, _c + 3);
                         if (
                             !decimal.TryParse(str1, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec1) ||
                             !decimal.TryParse(str2, NumberStyles.Number, new CultureInfo("En-US"), out decimal dec2) ||
@@ -160,7 +163,7 @@ namespace WorkProject1
 
         private void SheetTextBox_TextChanged(object sender, EventArgs e)
         {//Проверка названия листа (Ввод ячейки невозможен при неправильном названии)
-            if (GetCellValue(OpenExcelFileDialog.FileName, SheetTextBox.Text, "A1") == null) {
+            if (reader.GetCellValue(SheetTextBox.Text, "A1") == null) {
                 SheetErrorLabel.Text = "Лист не существует в этой таблице";
                 CellTextBox.Enabled = false;
                 LoadCellsBtn.Enabled = false;
