@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using static WorkProject1.ExcelHelper;
 using static WorkProject1.MathHelper;
 using static DecimalMath.DecimalEx;
 using ExcelReader;
+using System.Linq;
 
 namespace WorkProject1
 {
@@ -18,6 +20,7 @@ namespace WorkProject1
         delegate void InvokeDelegate();
         delegate string StrDelegate(int row, int column);
         readonly List<decimal>[] data = new List<decimal>[4];
+        decimal Xc, Yc, r_aft, r_mass;
         public MainWindow()
         {
             InitializeComponent();
@@ -25,6 +28,38 @@ namespace WorkProject1
         private void LoadFileBtn_Click(object sender, EventArgs e)
         {
             OpenExcelFileDialog.ShowDialog();
+        }
+
+        private decimal ResizeDecimal(decimal value, decimal nativeFactor, decimal resultingFactor)
+        {
+            return (value / nativeFactor) * resultingFactor;
+        }
+
+        private void DrawVesselPath() //Отрисовка циркуляции
+        {
+            Bitmap bmp = new Bitmap(DiagramField.Size.Width, DiagramField.Size.Height);
+            Graphics gr = Graphics.FromImage(bmp);
+            decimal
+                x_min = Math.Min(data[0].Min(), data[2].Min()),
+                y_min = Math.Min(data[1].Min(), data[3].Min()),
+                x_max = Math.Max(data[0].Max(), data[2].Max()) - x_min + 40,
+                y_max = Math.Max(data[1].Max(), data[3].Max()) - y_min + 40,
+                factor = DiagramField.Size.Width < DiagramField.Size.Height ? DiagramField.Size.Width : DiagramField.Size.Height;
+            decimal[,] decimals = new decimal[4, data[0].Count()];
+            for (int i = 0; i < decimals.GetLength(1); i++)
+            {
+                decimals[0, i] = ResizeDecimal(data[0][i] - x_min, x_max, factor) + 20;
+                decimals[1, i] = ResizeDecimal(data[1][i] - y_min, y_max, factor) + 20;
+                decimals[2, i] = ResizeDecimal(data[2][i] - x_min, x_max, factor) + 20;
+                decimals[3, i] = ResizeDecimal(data[3][i] - y_min, y_max, factor) + 20;
+            }
+            for (int i = 0; i < decimals.GetLength(1) - 1; i++)
+            {
+                gr.DrawLine(Pens.Blue, (float)decimals[0, i], (float)decimals[1, i], (float)decimals[0, i + 1], (float)decimals[1, i + 1]);
+                gr.DrawLine(Pens.DarkOrange, (float)decimals[2, i], (float)decimals[3, i], (float)decimals[2, i + 1], (float)decimals[3, i + 1]);
+            }
+            gr.Dispose();
+            DiagramField.Image = bmp;
         }
 
         private void OpenExcelFileDialog_FileOK(object sender, CancelEventArgs e)
@@ -41,6 +76,9 @@ namespace WorkProject1
 
         private void LoadCellsBtn_Click(object sender, EventArgs e)
         {
+            DiagramField.Image = null;
+            DrawCalculated.Checked = false;
+            DrawCalculated.Enabled = false;
             data[0] = new List<decimal>();
             data[1] = new List<decimal>();
             data[2] = new List<decimal>();
@@ -121,6 +159,7 @@ namespace WorkProject1
                         LoadFileBtn.Enabled = true;
                         SheetTextBox.Enabled = true;
                         CellTextBox.Enabled = true;
+                        DrawVesselPath();
                     }));
                 }
                 catch { }
@@ -134,12 +173,13 @@ namespace WorkProject1
             {
                 for (int i = 0; i < CellTextBox.Text.Length; i++)
                 {
+                    string isUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     char sym = CellTextBox.Text.ToUpper()[i];
                     if (
-                        (char.IsUpper(sym) && numbers) || 
+                        (isUpper.Contains(sym) && numbers) || 
                         (char.IsDigit(sym) && i == 0) || 
                         (!numbers && sym == '0') || 
-                        (!char.IsUpper(sym)&&!char.IsNumber(sym))
+                        (!isUpper.Contains(sym)&&!char.IsNumber(sym))
                     )
                     {
                         CellErrorLabel.Text = "Неверный адрес ячейки";
@@ -177,7 +217,6 @@ namespace WorkProject1
 
         private void CalculateBtn_Click(object sender, EventArgs e)
         {//Расчеты (aft - Корма, nose - Нос, mass - ЦМ
-            decimal Xc, Yc;
             { //вычисление координат центра циркуляции Xc и Yc
                 decimal
                     Xc_aft = Sum(data[0].ToArray()) / data[0].Count,
@@ -219,7 +258,7 @@ namespace WorkProject1
                 alpha_aft[i] *= 180 / Pi;
                 alpha_mass[i] *= 180 / Pi;
             }
-            decimal r_aft, r_mass, angle_aft, angle_mass, m_r_aft, m_r_mass, m_a_aft, m_a_mass;
+            decimal angle_aft, angle_mass, m_r_aft, m_r_mass, m_a_aft, m_a_mass;
             D_aft.Text = ((r_aft = Sum(R_aft) / R_aft.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
             D_mass.Text = ((r_mass = Sum(R_mass) / R_mass.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
             a_aft.Text = ((angle_aft = Sum(alpha_aft) / alpha_aft.Length) * 2).ToString("F2", new CultureInfo("Ru-Ru"));
@@ -241,11 +280,30 @@ namespace WorkProject1
             m_d_mass.Text = (m_r_mass / Sqrt(R_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
             m_an_aft.Text = (m_a_aft / Sqrt(alpha_aft.Length)).ToString("F2", new CultureInfo("Ru-RU"));
             m_an_mass.Text = (m_a_mass / Sqrt(alpha_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
+            DrawCalculated.Enabled = true;
+            DrawVesselPath();
         }
 
         private void CopyLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText((sender as LinkLabel).Text);
+        }
+
+        private void DiagramField_SizeChanged(object sender, EventArgs e)
+        {
+            if (data[3] != null && data[3].Count != 0) DrawVesselPath();
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            Width = SystemInformation.VirtualScreen.Width;
+            Height = SystemInformation.VirtualScreen.Height;
+            Location = Point.Empty;
+        }
+
+        private void Draw_CheckedChanged(object sender, EventArgs e)
+        {
+            DrawVesselPath();
         }
     }
 }
