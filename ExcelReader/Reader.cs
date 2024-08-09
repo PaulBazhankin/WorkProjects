@@ -13,8 +13,8 @@ namespace ExcelReader
 {
     public class Reader : IDisposable
     {
-        private Stream file;
-        SpreadsheetDocument document;
+        readonly private Stream file;
+        readonly SpreadsheetDocument document;
 
         public string GetCellValue(string sheetName, string addressName)
         {
