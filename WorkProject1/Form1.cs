@@ -77,8 +77,6 @@ namespace WorkProject1
         private void LoadCellsBtn_Click(object sender, EventArgs e)
         {
             DiagramField.Image = null;
-            DrawCalculated.Checked = false;
-            DrawCalculated.Enabled = false;
             data[0] = new List<decimal>();
             data[1] = new List<decimal>();
             data[2] = new List<decimal>();
@@ -280,7 +278,6 @@ namespace WorkProject1
             m_d_mass.Text = (m_r_mass / Sqrt(R_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
             m_an_aft.Text = (m_a_aft / Sqrt(alpha_aft.Length)).ToString("F2", new CultureInfo("Ru-RU"));
             m_an_mass.Text = (m_a_mass / Sqrt(alpha_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
-            DrawCalculated.Enabled = true;
             DrawVesselPath();
         }
 
