@@ -21,6 +21,7 @@ namespace WorkProject1
         delegate string StrDelegate(int row, int column);
         readonly List<decimal>[] data = new List<decimal>[4];
         decimal Xc, Yc, r_aft, r_mass;
+        CultureInfo cult = new CultureInfo("Ru-RU");
         public MainWindow()
         {
             InitializeComponent();
@@ -230,29 +231,17 @@ namespace WorkProject1
                 DX_nose = Array.ConvertAll(data[2].ToArray(), delegate (decimal input) { return input - Xc; }), 
                 DY_nose = Array.ConvertAll(data[3].ToArray(), delegate (decimal input) { return input - Yc; }),
                 R_aft = new decimal[DX_aft.Length], R_nose = new decimal[DX_nose.Length], R_mass = new decimal[R_nose.Length];
-            decimal L;
-            Form2 getGPSLength = new Form2();
-            DialogResult result = getGPSLength.ShowDialog(); //Запрос расстояния между датчиками GPS судна
-            if (result == DialogResult.OK)
-            {
-                L = getGPSLength.Out;
-            }
-            else
-            {
-                MessageBox.Show("Ввод данных отменён. Расчет прерван", "Ошибка", default, icon: MessageBoxIcon.Error);
-                return;
-            }
             for (int i = 0; i < data[0].Count; i++)
             {
                 R_aft[i] = Sqrt(Pow(DX_aft[i], 2) + Pow(DY_aft[i], 2));
                 R_nose[i] = Sqrt(Pow(DX_nose[i], 2) + Pow(DY_nose[i], 2));
-                R_mass[i] = 0.5m * Sqrt(2 * Pow(R_aft[i], 2) + 2 * Pow(R_nose[i],2)-Pow(L,2));
+                R_mass[i] = 0.5m * Sqrt(2 * Pow(R_aft[i], 2) + 2 * Pow(R_nose[i],2)-Pow(GPS_length.Value,2));
             }
             decimal[] alpha_aft = new decimal[R_aft.Length], alpha_mass = new decimal[R_nose.Length]; // вычисление Углов дрейфа
             for(int i = 0; i < alpha_aft.Length; i++)
             {
-                alpha_aft[i] = (Pi / 2) - ACos((Pow(R_aft[i], 2) - Pow(R_mass[i], 2) + 0.25m * Pow(L, 2)) / (2 * R_aft[i] * L));
-                alpha_mass[i] = (Pi / 2) - ACos((Pow(R_mass[i], 2) - Pow(R_nose[i], 2) + 0.25m * Pow(L, 2)) / (2 * R_mass[i] * L));
+                alpha_aft[i] = (Pi / 2) - ACos((Pow(R_aft[i], 2) - Pow(R_mass[i], 2) + 0.25m * Pow(GPS_length.Value, 2)) / (2 * R_aft[i] * GPS_length.Value));
+                alpha_mass[i] = (Pi / 2) - ACos((Pow(R_mass[i], 2) - Pow(R_nose[i], 2) + 0.25m * Pow(GPS_length.Value, 2)) / (2 * R_mass[i] * GPS_length.Value));
                 alpha_aft[i] *= 180 / Pi;
                 alpha_mass[i] *= 180 / Pi;
             }
@@ -274,16 +263,29 @@ namespace WorkProject1
             m_r_mass = Sqrt(Sum(mi_r_mass) / mi_r_mass.Length);
             m_a_aft = Sqrt(Sum(mi_a_aft) / mi_a_aft.Length);
             m_a_mass = Sqrt(Sum(mi_a_mass) / mi_a_mass.Length);
-            m_d_aft.Text = (m_r_aft / Sqrt(R_aft.Length)).ToString("F2", new CultureInfo("Ru-RU"));
-            m_d_mass.Text = (m_r_mass / Sqrt(R_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
-            m_an_aft.Text = (m_a_aft / Sqrt(alpha_aft.Length)).ToString("F2", new CultureInfo("Ru-RU"));
-            m_an_mass.Text = (m_a_mass / Sqrt(alpha_mass.Length)).ToString("F2", new CultureInfo("Ru-RU"));
+            m_d_aft.Text = (m_r_aft / Sqrt(R_aft.Length)).ToString("F2", cult);
+            m_d_mass.Text = (m_r_mass / Sqrt(R_mass.Length)).ToString("F2", cult);
+            m_an_aft.Text = (m_a_aft / Sqrt(alpha_aft.Length)).ToString("F2", cult);
+            m_an_mass.Text = (m_a_mass / Sqrt(alpha_mass.Length)).ToString("F2", cult);
             DrawVesselPath();
         }
 
         private void CopyLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText((sender as LinkLabel).Text);
+        }
+
+        private void CalculateAltBtn_Click(object sender, EventArgs e)
+        {
+            decimal s_aft = 0, s_nose = 0;
+            for(int i = 0; i < data[0].Count; i++)
+            {
+                s_aft += Sqrt(data[0][i] * data[0][i] + data[1][i] * data[1][i]);
+                s_nose += Sqrt(data[2][i] * data[2][i] + data[3][i] * data[3][i]);
+            }
+            linkLabel1.Text = s_aft.ToString("F2", cult);
+            linkLabel2.Text = s_nose.ToString("F2", cult);
+            linkLabel3.Text = data[0].Count.ToString();
         }
 
         private void DiagramField_SizeChanged(object sender, EventArgs e)
