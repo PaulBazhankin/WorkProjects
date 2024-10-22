@@ -42,12 +42,12 @@ namespace WorkProject1
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
-            this.Tabs = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.DataTabs = new System.Windows.Forms.TabControl();
+            this.DataPage = new System.Windows.Forms.TabPage();
+            this.PathPage = new System.Windows.Forms.TabPage();
             this.DiagramField = new System.Windows.Forms.PictureBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.MainTabs = new System.Windows.Forms.TabControl();
+            this.ExcelTab = new System.Windows.Forms.TabPage();
             this.IndexingLabel = new System.Windows.Forms.Label();
             this.LoadCellsBtn = new System.Windows.Forms.Button();
             this.LoadFileBtn = new System.Windows.Forms.Button();
@@ -57,7 +57,12 @@ namespace WorkProject1
             this.SheetTextBox = new System.Windows.Forms.ComboBox();
             this.SheetErrorLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.DriftPage = new System.Windows.Forms.TabPage();
+            this.label15 = new System.Windows.Forms.Label();
+            this.DriftSpeed = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.DriftAngle = new System.Windows.Forms.NumericUpDown();
+            this.CirclePage = new System.Windows.Forms.TabPage();
             this.label10 = new System.Windows.Forms.Label();
             this.GPS_length = new System.Windows.Forms.NumericUpDown();
             this.m_an_mass = new System.Windows.Forms.LinkLabel();
@@ -75,24 +80,27 @@ namespace WorkProject1
             this.label4 = new System.Windows.Forms.Label();
             this.D_aft = new System.Windows.Forms.LinkLabel();
             this.CalculateBtn = new System.Windows.Forms.Button();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.HaltPage = new System.Windows.Forms.TabPage();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.label13 = new System.Windows.Forms.Label();
             this.CalculateAltBtn = new System.Windows.Forms.Button();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label12 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label11 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.Tabs.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.DataTabs.SuspendLayout();
+            this.DataPage.SuspendLayout();
+            this.PathPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DiagramField)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.MainTabs.SuspendLayout();
+            this.ExcelTab.SuspendLayout();
+            this.DriftPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DriftSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).BeginInit();
+            this.CirclePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GPS_length)).BeginInit();
-            this.tabPage5.SuspendLayout();
+            this.HaltPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenExcelFileDialog
@@ -178,41 +186,41 @@ namespace WorkProject1
             this.label2.TabIndex = 13;
             this.label2.Text = "Автор - Павел Бажанкин 2023-2024";
             // 
-            // Tabs
+            // DataTabs
             // 
-            this.Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.DataTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Tabs.Controls.Add(this.tabPage1);
-            this.Tabs.Controls.Add(this.tabPage2);
-            this.Tabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.Tabs.Location = new System.Drawing.Point(406, 5);
-            this.Tabs.Margin = new System.Windows.Forms.Padding(0);
-            this.Tabs.Name = "Tabs";
-            this.Tabs.Padding = new System.Drawing.Point(0, 0);
-            this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(458, 373);
-            this.Tabs.TabIndex = 28;
+            this.DataTabs.Controls.Add(this.DataPage);
+            this.DataTabs.Controls.Add(this.PathPage);
+            this.DataTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.DataTabs.Location = new System.Drawing.Point(406, 5);
+            this.DataTabs.Margin = new System.Windows.Forms.Padding(0);
+            this.DataTabs.Name = "DataTabs";
+            this.DataTabs.Padding = new System.Drawing.Point(0, 0);
+            this.DataTabs.SelectedIndex = 0;
+            this.DataTabs.Size = new System.Drawing.Size(458, 373);
+            this.DataTabs.TabIndex = 28;
             // 
-            // tabPage1
+            // DataPage
             // 
-            this.tabPage1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage1.Controls.Add(this.dataGridView1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 27);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(450, 342);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Данные";
+            this.DataPage.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.DataPage.Controls.Add(this.dataGridView1);
+            this.DataPage.Location = new System.Drawing.Point(4, 27);
+            this.DataPage.Name = "DataPage";
+            this.DataPage.Size = new System.Drawing.Size(450, 342);
+            this.DataPage.TabIndex = 0;
+            this.DataPage.Text = "Данные";
             // 
-            // tabPage2
+            // PathPage
             // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage2.Controls.Add(this.DiagramField);
-            this.tabPage2.Location = new System.Drawing.Point(4, 27);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(450, 342);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Путь";
+            this.PathPage.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.PathPage.Controls.Add(this.DiagramField);
+            this.PathPage.Location = new System.Drawing.Point(4, 27);
+            this.PathPage.Name = "PathPage";
+            this.PathPage.Size = new System.Drawing.Size(450, 342);
+            this.PathPage.TabIndex = 1;
+            this.PathPage.Text = "Путь";
             // 
             // DiagramField
             // 
@@ -226,38 +234,39 @@ namespace WorkProject1
             this.DiagramField.TabStop = false;
             this.DiagramField.SizeChanged += new System.EventHandler(this.DiagramField_SizeChanged);
             // 
-            // tabControl1
+            // MainTabs
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.MainTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.tabControl1.Location = new System.Drawing.Point(0, 5);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(401, 353);
-            this.tabControl1.TabIndex = 29;
+            this.MainTabs.Controls.Add(this.ExcelTab);
+            this.MainTabs.Controls.Add(this.DriftPage);
+            this.MainTabs.Controls.Add(this.CirclePage);
+            this.MainTabs.Controls.Add(this.HaltPage);
+            this.MainTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.MainTabs.Location = new System.Drawing.Point(0, 5);
+            this.MainTabs.Name = "MainTabs";
+            this.MainTabs.SelectedIndex = 0;
+            this.MainTabs.Size = new System.Drawing.Size(401, 353);
+            this.MainTabs.TabIndex = 29;
             // 
-            // tabPage3
+            // ExcelTab
             // 
-            this.tabPage3.Controls.Add(this.IndexingLabel);
-            this.tabPage3.Controls.Add(this.LoadCellsBtn);
-            this.tabPage3.Controls.Add(this.LoadFileBtn);
-            this.tabPage3.Controls.Add(this.CellErrorLabel);
-            this.tabPage3.Controls.Add(this.CellTextBox);
-            this.tabPage3.Controls.Add(this.label3);
-            this.tabPage3.Controls.Add(this.SheetTextBox);
-            this.tabPage3.Controls.Add(this.SheetErrorLabel);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 27);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(393, 322);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Excel";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.ExcelTab.Controls.Add(this.IndexingLabel);
+            this.ExcelTab.Controls.Add(this.LoadCellsBtn);
+            this.ExcelTab.Controls.Add(this.LoadFileBtn);
+            this.ExcelTab.Controls.Add(this.CellErrorLabel);
+            this.ExcelTab.Controls.Add(this.CellTextBox);
+            this.ExcelTab.Controls.Add(this.label3);
+            this.ExcelTab.Controls.Add(this.SheetTextBox);
+            this.ExcelTab.Controls.Add(this.SheetErrorLabel);
+            this.ExcelTab.Controls.Add(this.label1);
+            this.ExcelTab.Location = new System.Drawing.Point(4, 27);
+            this.ExcelTab.Name = "ExcelTab";
+            this.ExcelTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ExcelTab.Size = new System.Drawing.Size(393, 322);
+            this.ExcelTab.TabIndex = 0;
+            this.ExcelTab.Text = "Excel";
+            this.ExcelTab.UseVisualStyleBackColor = true;
             // 
             // IndexingLabel
             // 
@@ -279,6 +288,7 @@ namespace WorkProject1
             this.LoadCellsBtn.TabIndex = 20;
             this.LoadCellsBtn.Text = "Загрузить данные";
             this.LoadCellsBtn.UseVisualStyleBackColor = true;
+            this.LoadCellsBtn.Click += new System.EventHandler(this.LoadCellsBtn_Click);
             // 
             // LoadFileBtn
             // 
@@ -289,6 +299,7 @@ namespace WorkProject1
             this.LoadFileBtn.TabIndex = 19;
             this.LoadFileBtn.Text = "Загрузить Excel файл";
             this.LoadFileBtn.UseVisualStyleBackColor = true;
+            this.LoadFileBtn.Click += new System.EventHandler(this.LoadFileBtn_Click);
             // 
             // CellErrorLabel
             // 
@@ -308,6 +319,7 @@ namespace WorkProject1
             this.CellTextBox.Name = "CellTextBox";
             this.CellTextBox.Size = new System.Drawing.Size(126, 24);
             this.CellTextBox.TabIndex = 17;
+            this.CellTextBox.TextChanged += new System.EventHandler(this.CellTextBox_TextChanged);
             // 
             // label3
             // 
@@ -327,6 +339,7 @@ namespace WorkProject1
             this.SheetTextBox.Name = "SheetTextBox";
             this.SheetTextBox.Size = new System.Drawing.Size(126, 26);
             this.SheetTextBox.TabIndex = 15;
+            this.SheetTextBox.TextChanged += new System.EventHandler(this.SheetTextBox_TextChanged);
             // 
             // SheetErrorLabel
             // 
@@ -348,32 +361,106 @@ namespace WorkProject1
             this.label1.TabIndex = 13;
             this.label1.Text = "Лист с данными";
             // 
-            // tabPage4
+            // DriftPage
             // 
-            this.tabPage4.Controls.Add(this.label10);
-            this.tabPage4.Controls.Add(this.GPS_length);
-            this.tabPage4.Controls.Add(this.m_an_mass);
-            this.tabPage4.Controls.Add(this.m_an_aft);
-            this.tabPage4.Controls.Add(this.m_d_mass);
-            this.tabPage4.Controls.Add(this.m_d_aft);
-            this.tabPage4.Controls.Add(this.label9);
-            this.tabPage4.Controls.Add(this.label8);
-            this.tabPage4.Controls.Add(this.a_mass);
-            this.tabPage4.Controls.Add(this.label7);
-            this.tabPage4.Controls.Add(this.a_aft);
-            this.tabPage4.Controls.Add(this.label6);
-            this.tabPage4.Controls.Add(this.D_mass);
-            this.tabPage4.Controls.Add(this.label5);
-            this.tabPage4.Controls.Add(this.label4);
-            this.tabPage4.Controls.Add(this.D_aft);
-            this.tabPage4.Controls.Add(this.CalculateBtn);
-            this.tabPage4.Location = new System.Drawing.Point(4, 27);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(393, 322);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Хар. Циркуляции";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.DriftPage.Controls.Add(this.label15);
+            this.DriftPage.Controls.Add(this.DriftSpeed);
+            this.DriftPage.Controls.Add(this.label14);
+            this.DriftPage.Controls.Add(this.DriftAngle);
+            this.DriftPage.Location = new System.Drawing.Point(4, 27);
+            this.DriftPage.Name = "DriftPage";
+            this.DriftPage.Size = new System.Drawing.Size(393, 322);
+            this.DriftPage.TabIndex = 3;
+            this.DriftPage.Text = "Хар. Сноса";
+            this.DriftPage.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 59);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(121, 18);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "Скорость сноса";
+            // 
+            // DriftSpeed
+            // 
+            this.DriftSpeed.DecimalPlaces = 2;
+            this.DriftSpeed.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.DriftSpeed.Location = new System.Drawing.Point(8, 80);
+            this.DriftSpeed.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.DriftSpeed.Name = "DriftSpeed";
+            this.DriftSpeed.Size = new System.Drawing.Size(120, 24);
+            this.DriftSpeed.TabIndex = 2;
+            this.DriftSpeed.ValueChanged += new System.EventHandler(this.Drift_ValueChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(8, 11);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(87, 18);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "Угол сноса";
+            // 
+            // DriftAngle
+            // 
+            this.DriftAngle.DecimalPlaces = 1;
+            this.DriftAngle.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.DriftAngle.Location = new System.Drawing.Point(8, 32);
+            this.DriftAngle.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.DriftAngle.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
+            this.DriftAngle.Name = "DriftAngle";
+            this.DriftAngle.Size = new System.Drawing.Size(120, 24);
+            this.DriftAngle.TabIndex = 0;
+            this.DriftAngle.ValueChanged += new System.EventHandler(this.Drift_ValueChanged);
+            // 
+            // CirclePage
+            // 
+            this.CirclePage.Controls.Add(this.label10);
+            this.CirclePage.Controls.Add(this.GPS_length);
+            this.CirclePage.Controls.Add(this.m_an_mass);
+            this.CirclePage.Controls.Add(this.m_an_aft);
+            this.CirclePage.Controls.Add(this.m_d_mass);
+            this.CirclePage.Controls.Add(this.m_d_aft);
+            this.CirclePage.Controls.Add(this.label9);
+            this.CirclePage.Controls.Add(this.label8);
+            this.CirclePage.Controls.Add(this.a_mass);
+            this.CirclePage.Controls.Add(this.label7);
+            this.CirclePage.Controls.Add(this.a_aft);
+            this.CirclePage.Controls.Add(this.label6);
+            this.CirclePage.Controls.Add(this.D_mass);
+            this.CirclePage.Controls.Add(this.label5);
+            this.CirclePage.Controls.Add(this.label4);
+            this.CirclePage.Controls.Add(this.D_aft);
+            this.CirclePage.Controls.Add(this.CalculateBtn);
+            this.CirclePage.Location = new System.Drawing.Point(4, 27);
+            this.CirclePage.Name = "CirclePage";
+            this.CirclePage.Padding = new System.Windows.Forms.Padding(3);
+            this.CirclePage.Size = new System.Drawing.Size(393, 322);
+            this.CirclePage.TabIndex = 1;
+            this.CirclePage.Text = "Хар. Циркуляции";
+            this.CirclePage.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -403,6 +490,7 @@ namespace WorkProject1
             this.m_an_mass.TabIndex = 42;
             this.m_an_mass.TabStop = true;
             this.m_an_mass.Text = "0";
+            this.m_an_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_an_aft
             // 
@@ -414,6 +502,7 @@ namespace WorkProject1
             this.m_an_aft.TabIndex = 41;
             this.m_an_aft.TabStop = true;
             this.m_an_aft.Text = "0";
+            this.m_an_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_d_mass
             // 
@@ -425,6 +514,7 @@ namespace WorkProject1
             this.m_d_mass.TabIndex = 40;
             this.m_d_mass.TabStop = true;
             this.m_d_mass.Text = "0";
+            this.m_d_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // m_d_aft
             // 
@@ -436,6 +526,7 @@ namespace WorkProject1
             this.m_d_aft.TabIndex = 39;
             this.m_d_aft.TabStop = true;
             this.m_d_aft.Text = "0";
+            this.m_d_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // label9
             // 
@@ -467,6 +558,7 @@ namespace WorkProject1
             this.a_mass.TabIndex = 36;
             this.a_mass.TabStop = true;
             this.a_mass.Text = "0";
+            this.a_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // label7
             // 
@@ -488,6 +580,7 @@ namespace WorkProject1
             this.a_aft.TabIndex = 34;
             this.a_aft.TabStop = true;
             this.a_aft.Text = "0";
+            this.a_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // label6
             // 
@@ -509,6 +602,7 @@ namespace WorkProject1
             this.D_mass.TabIndex = 32;
             this.D_mass.TabStop = true;
             this.D_mass.Text = "0";
+            this.D_mass.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // label5
             // 
@@ -540,6 +634,7 @@ namespace WorkProject1
             this.D_aft.TabIndex = 29;
             this.D_aft.TabStop = true;
             this.D_aft.Text = "0";
+            this.D_aft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
             // 
             // CalculateBtn
             // 
@@ -551,22 +646,43 @@ namespace WorkProject1
             this.CalculateBtn.TabIndex = 28;
             this.CalculateBtn.Text = "Рассчитать";
             this.CalculateBtn.UseVisualStyleBackColor = true;
+            this.CalculateBtn.Click += new System.EventHandler(this.CalculateBtn_Click);
             // 
-            // tabPage5
+            // HaltPage
             // 
-            this.tabPage5.Controls.Add(this.linkLabel3);
-            this.tabPage5.Controls.Add(this.label13);
-            this.tabPage5.Controls.Add(this.CalculateAltBtn);
-            this.tabPage5.Controls.Add(this.linkLabel2);
-            this.tabPage5.Controls.Add(this.label12);
-            this.tabPage5.Controls.Add(this.linkLabel1);
-            this.tabPage5.Controls.Add(this.label11);
-            this.tabPage5.Location = new System.Drawing.Point(4, 27);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(393, 322);
-            this.tabPage5.TabIndex = 2;
-            this.tabPage5.Text = "Хар. Торм. Пути";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.HaltPage.Controls.Add(this.linkLabel3);
+            this.HaltPage.Controls.Add(this.label13);
+            this.HaltPage.Controls.Add(this.CalculateAltBtn);
+            this.HaltPage.Controls.Add(this.linkLabel2);
+            this.HaltPage.Controls.Add(this.label12);
+            this.HaltPage.Controls.Add(this.linkLabel1);
+            this.HaltPage.Controls.Add(this.label11);
+            this.HaltPage.Location = new System.Drawing.Point(4, 27);
+            this.HaltPage.Name = "HaltPage";
+            this.HaltPage.Size = new System.Drawing.Size(393, 322);
+            this.HaltPage.TabIndex = 2;
+            this.HaltPage.Text = "Хар. Торм. Пути";
+            this.HaltPage.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.Location = new System.Drawing.Point(5, 121);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(16, 18);
+            this.linkLabel3.TabIndex = 6;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "0";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(5, 103);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(53, 18);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "Время";
             // 
             // CalculateAltBtn
             // 
@@ -574,7 +690,7 @@ namespace WorkProject1
             this.CalculateAltBtn.Name = "CalculateAltBtn";
             this.CalculateAltBtn.Size = new System.Drawing.Size(126, 25);
             this.CalculateAltBtn.TabIndex = 4;
-            this.CalculateAltBtn.Text = "Расчитать";
+            this.CalculateAltBtn.Text = "Рассчитать";
             this.CalculateAltBtn.UseVisualStyleBackColor = true;
             this.CalculateAltBtn.Click += new System.EventHandler(this.CalculateAltBtn_Click);
             // 
@@ -618,52 +734,37 @@ namespace WorkProject1
             this.label11.TabIndex = 0;
             this.label11.Text = "Длина Тормозного пути (Корма)";
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(5, 103);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 18);
-            this.label13.TabIndex = 5;
-            this.label13.Text = "Время";
-            // 
-            // linkLabel3
-            // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(5, 121);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(16, 18);
-            this.linkLabel3.TabIndex = 6;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "0";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkClicked);
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(864, 404);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.Tabs);
+            this.Controls.Add(this.MainTabs);
+            this.Controls.Add(this.DataTabs);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.progressBar1);
             this.Name = "MainWindow";
             this.Text = "Калькулятор циркуляции";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.Tabs.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.DataTabs.ResumeLayout(false);
+            this.DataPage.ResumeLayout(false);
+            this.PathPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DiagramField)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            this.MainTabs.ResumeLayout(false);
+            this.ExcelTab.ResumeLayout(false);
+            this.ExcelTab.PerformLayout();
+            this.DriftPage.ResumeLayout(false);
+            this.DriftPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DriftSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).EndInit();
+            this.CirclePage.ResumeLayout(false);
+            this.CirclePage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GPS_length)).EndInit();
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage5.PerformLayout();
+            this.HaltPage.ResumeLayout(false);
+            this.HaltPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -679,12 +780,12 @@ namespace WorkProject1
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.TabControl Tabs;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl DataTabs;
+        private System.Windows.Forms.TabPage DataPage;
+        private System.Windows.Forms.TabPage PathPage;
         private System.Windows.Forms.PictureBox DiagramField;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabControl MainTabs;
+        private System.Windows.Forms.TabPage ExcelTab;
         private System.Windows.Forms.Label IndexingLabel;
         private System.Windows.Forms.Button LoadCellsBtn;
         private System.Windows.Forms.Button LoadFileBtn;
@@ -694,7 +795,7 @@ namespace WorkProject1
         private System.Windows.Forms.ComboBox SheetTextBox;
         private System.Windows.Forms.Label SheetErrorLabel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage CirclePage;
         private System.Windows.Forms.LinkLabel m_an_mass;
         private System.Windows.Forms.LinkLabel m_an_aft;
         private System.Windows.Forms.LinkLabel m_d_mass;
@@ -712,7 +813,7 @@ namespace WorkProject1
         private System.Windows.Forms.Button CalculateBtn;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown GPS_length;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage HaltPage;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
@@ -720,6 +821,11 @@ namespace WorkProject1
         private System.Windows.Forms.Button CalculateAltBtn;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TabPage DriftPage;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.NumericUpDown DriftSpeed;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown DriftAngle;
     }
 }
 

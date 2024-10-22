@@ -10,16 +10,21 @@ using static WorkProject1.MathHelper;
 using static DecimalMath.DecimalEx;
 using ExcelReader;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
+        static Version currentV = new Version("Prj1.5");
+
         Reader reader;
         bool fileOpened = false;
         delegate void InvokeDelegate();
         delegate string StrDelegate(int row, int column);
         readonly List<decimal>[] data = new List<decimal>[4];
+        readonly List<decimal>[] data2 = new List<decimal>[4];
         decimal Xc, Yc, r_aft, r_mass;
         CultureInfo cult = new CultureInfo("Ru-RU");
         public MainWindow()
@@ -45,14 +50,24 @@ namespace WorkProject1
                 y_min = Math.Min(data[1].Min(), data[3].Min()),
                 x_max = Math.Max(data[0].Max(), data[2].Max()) - x_min + 40,
                 y_max = Math.Max(data[1].Max(), data[3].Max()) - y_min + 40,
-                factor = DiagramField.Size.Width < DiagramField.Size.Height ? DiagramField.Size.Width : DiagramField.Size.Height;
+                factor = Math.Min(DiagramField.Width, DiagramField.Height)/*,
+                n_factor = DiagramField.Width < DiagramField.Height ? x_max - x_min : y_max - y_min*/;
             decimal[,] decimals = new decimal[4, data[0].Count()];
             for (int i = 0; i < decimals.GetLength(1); i++)
             {
-                decimals[0, i] = ResizeDecimal(data[0][i] - x_min, x_max, factor) + 20;
-                decimals[1, i] = ResizeDecimal(data[1][i] - y_min, y_max, factor) + 20;
-                decimals[2, i] = ResizeDecimal(data[2][i] - x_min, x_max, factor) + 20;
-                decimals[3, i] = ResizeDecimal(data[3][i] - y_min, y_max, factor) + 20;
+                decimals[0, i] = ResizeDecimal(data[0][i] - x_min, /*n_factor*/ x_max, factor) + 20;
+                decimals[1, i] = ResizeDecimal(data[1][i] - y_min, /*n_factor*/ y_max, factor) + 20;
+                decimals[2, i] = ResizeDecimal(data[2][i] - x_min, /*n_factor*/ x_max, factor) + 20;
+                decimals[3, i] = ResizeDecimal(data[3][i] - y_min, /*n_factor*/ y_max, factor) + 20;
+            }
+            int l = (int)(factor / 15);
+            for (int i = l/2; i < DiagramField.Width; i += l)
+            {
+                gr.DrawLine(Pens.Gray, i, 0, i, DiagramField.Height - 1);
+            }
+            for (int i = l/2; i < DiagramField.Height; i += l)
+            {
+                gr.DrawLine(Pens.Gray, 0, i, DiagramField.Width, i);
             }
             for (int i = 0; i < decimals.GetLength(1) - 1; i++)
             {
@@ -149,6 +164,17 @@ namespace WorkProject1
                 try
                 {
                     Invoke(new InvokeDelegate(()=> {//Включение элементов управления
+                        data2[0] = new List<decimal>();
+                        data2[1] = new List<decimal>();
+                        data2[2] = new List<decimal>();
+                        data2[3] = new List<decimal>();
+                        for (int i = 0; i < data[0].Count; i++)
+                        {
+                            data2[0].Add(data[0][i]);
+                            data2[1].Add(data[1][i]);
+                            data2[2].Add(data[2][i]);
+                            data2[3].Add(data[3][i]);
+                        }
                         progressBar1.Style = ProgressBarStyle.Blocks;
                         progressBar1.Value = 0;
                         progressBar1.Maximum = rows;
@@ -288,21 +314,96 @@ namespace WorkProject1
             linkLabel3.Text = data[0].Count.ToString();
         }
 
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Drift_ValueChanged(object sender, EventArgs e)
+        {
+            for(int i = 1; i < data[0].Count; i++)
+            {
+                data[0][i] = data2[0][i] + DriftSpeed.Value * i * Cos(DriftAngle.Value / 180 * Pi);
+                data[1][i] = data2[1][i] + DriftSpeed.Value * i * Sin(DriftAngle.Value / 180 * Pi);
+                data[2][i] = data2[2][i] + DriftSpeed.Value * i * Cos(DriftAngle.Value / 180 * Pi);
+                data[3][i] = data2[3][i] + DriftSpeed.Value * i * Sin(DriftAngle.Value / 180 * Pi);
+            }
+            DrawVesselPath();
+        }
+
         private void DiagramField_SizeChanged(object sender, EventArgs e)
         {
             if (data[3] != null && data[3].Count != 0) DrawVesselPath();
         }
 
-        private void MainWindow_Shown(object sender, EventArgs e)
+        private async void MainWindow_Shown(object sender, EventArgs e)
         {
             Width = SystemInformation.VirtualScreen.Width;
             Height = SystemInformation.VirtualScreen.Height;
             Location = Point.Empty;
+            HttpRequestMessage request = new HttpRequestMessage()
+            {
+                RequestUri = new Uri("https://api.github.com/repos/PaulBazhankin/WorkProjects/tags"),
+                Method = HttpMethod.Get
+            };
+            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/vnd.github+json"));
+            request.Headers.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue(@"(Win)"));
+            request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
+            HttpClient http = new HttpClient();
+            HttpResponseMessage response = await http.SendAsync(request);
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            Version newest = JsonSerializer.Deserialize<GithubTag[]>(jsonResponse, new JsonSerializerOptions() { IncludeFields = true }).Select((GithubTag g)=> new Version(g.name)).Where((Version v) => v.Name == "Prj1").FirstOrDefault();
+            if (newest.MainVersion > currentV.MainVersion && newest.SubVersion > 0) 
+            { 
+                DialogResult dr = MessageBox.Show("Устаревшая версия\nОбновить?","Внимание!",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
+                if(dr == DialogResult.Yes) System.Diagnostics.Process.Start($"https://github.com/PaulBazhankin/WorkProjects/releases/tag/{newest.FullName}");
+            }
         }
 
-        private void Draw_CheckedChanged(object sender, EventArgs e)
+        class Version
         {
-            DrawVesselPath();
+            public string Name { get; }
+            public string FullName { get; }
+            public int MainVersion { get; }
+            public int SubVersion { get; }
+
+            public Version(string ver)
+            {
+                string[] sections = ver.Split('.');
+                Name = sections[0];
+                FullName = ver;
+                MainVersion = int.Parse(sections[1]);
+                if (sections.Length < 3) SubVersion = 0;
+                else SubVersion = int.Parse(sections[2]);
+            }
+        }
+
+        class GithubTag
+        {
+            public string name;
+            public string zipball_url;
+            public string tarball_url;
+            public class Commit
+            {
+                public string sha;
+                public string url;
+
+                public Commit(string sha, string url)
+                {
+                    this.sha = sha;
+                    this.url = url;
+                }
+            }
+            public Commit commit;
+            public string node_id;
+            public GithubTag(string name, Commit commit, string zipball_url, string tarball_url, string node_id)
+            {
+                this.name = name;
+                this.commit = commit;
+                this.zipball_url = zipball_url;
+                this.tarball_url = tarball_url;
+                this.node_id = node_id;
+            }
         }
     }
 }
