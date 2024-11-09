@@ -63,8 +63,6 @@ namespace WorkProject1
             this.label14 = new System.Windows.Forms.Label();
             this.DriftAngle = new System.Windows.Forms.NumericUpDown();
             this.CirclePage = new System.Windows.Forms.TabPage();
-            this.label10 = new System.Windows.Forms.Label();
-            this.GPS_length = new System.Windows.Forms.NumericUpDown();
             this.m_an_mass = new System.Windows.Forms.LinkLabel();
             this.m_an_aft = new System.Windows.Forms.LinkLabel();
             this.m_d_mass = new System.Windows.Forms.LinkLabel();
@@ -99,7 +97,6 @@ namespace WorkProject1
             ((System.ComponentModel.ISupportInitialize)(this.DriftSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).BeginInit();
             this.CirclePage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GPS_length)).BeginInit();
             this.HaltPage.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -251,6 +248,7 @@ namespace WorkProject1
             // 
             // ExcelTab
             // 
+            this.ExcelTab.AllowDrop = true;
             this.ExcelTab.Controls.Add(this.IndexingLabel);
             this.ExcelTab.Controls.Add(this.LoadCellsBtn);
             this.ExcelTab.Controls.Add(this.LoadFileBtn);
@@ -267,6 +265,8 @@ namespace WorkProject1
             this.ExcelTab.TabIndex = 0;
             this.ExcelTab.Text = "Excel";
             this.ExcelTab.UseVisualStyleBackColor = true;
+            this.ExcelTab.DragDrop += new System.Windows.Forms.DragEventHandler(this.ExcelTab_DragDrop);
+            this.ExcelTab.DragEnter += new System.Windows.Forms.DragEventHandler(this.ExcelTab_DragEnter);
             // 
             // IndexingLabel
             // 
@@ -437,8 +437,6 @@ namespace WorkProject1
             // 
             // CirclePage
             // 
-            this.CirclePage.Controls.Add(this.label10);
-            this.CirclePage.Controls.Add(this.GPS_length);
             this.CirclePage.Controls.Add(this.m_an_mass);
             this.CirclePage.Controls.Add(this.m_an_aft);
             this.CirclePage.Controls.Add(this.m_d_mass);
@@ -462,29 +460,11 @@ namespace WorkProject1
             this.CirclePage.Text = "Хар. Циркуляции";
             this.CirclePage.UseVisualStyleBackColor = true;
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.label10.Location = new System.Drawing.Point(8, 3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(265, 18);
-            this.label10.TabIndex = 44;
-            this.label10.Text = "Расстояние между датчиками ГНСС";
-            // 
-            // GPS_length
-            // 
-            this.GPS_length.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.GPS_length.Location = new System.Drawing.Point(11, 24);
-            this.GPS_length.Name = "GPS_length";
-            this.GPS_length.Size = new System.Drawing.Size(120, 24);
-            this.GPS_length.TabIndex = 43;
-            // 
             // m_an_mass
             // 
             this.m_an_mass.AutoSize = true;
             this.m_an_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.m_an_mass.Location = new System.Drawing.Point(301, 154);
+            this.m_an_mass.Location = new System.Drawing.Point(298, 106);
             this.m_an_mass.Name = "m_an_mass";
             this.m_an_mass.Size = new System.Drawing.Size(16, 17);
             this.m_an_mass.TabIndex = 42;
@@ -496,7 +476,7 @@ namespace WorkProject1
             // 
             this.m_an_aft.AutoSize = true;
             this.m_an_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.m_an_aft.Location = new System.Drawing.Point(301, 136);
+            this.m_an_aft.Location = new System.Drawing.Point(298, 88);
             this.m_an_aft.Name = "m_an_aft";
             this.m_an_aft.Size = new System.Drawing.Size(16, 17);
             this.m_an_aft.TabIndex = 41;
@@ -508,7 +488,7 @@ namespace WorkProject1
             // 
             this.m_d_mass.AutoSize = true;
             this.m_d_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.m_d_mass.Location = new System.Drawing.Point(301, 118);
+            this.m_d_mass.Location = new System.Drawing.Point(298, 70);
             this.m_d_mass.Name = "m_d_mass";
             this.m_d_mass.Size = new System.Drawing.Size(16, 17);
             this.m_d_mass.TabIndex = 40;
@@ -520,7 +500,7 @@ namespace WorkProject1
             // 
             this.m_d_aft.AutoSize = true;
             this.m_d_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.m_d_aft.Location = new System.Drawing.Point(301, 100);
+            this.m_d_aft.Location = new System.Drawing.Point(298, 52);
             this.m_d_aft.Name = "m_d_aft";
             this.m_d_aft.Size = new System.Drawing.Size(16, 17);
             this.m_d_aft.TabIndex = 39;
@@ -532,7 +512,7 @@ namespace WorkProject1
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label9.Location = new System.Drawing.Point(301, 82);
+            this.label9.Location = new System.Drawing.Point(298, 34);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(94, 17);
             this.label9.TabIndex = 38;
@@ -542,7 +522,7 @@ namespace WorkProject1
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label8.Location = new System.Drawing.Point(8, 154);
+            this.label8.Location = new System.Drawing.Point(5, 106);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(131, 17);
             this.label8.TabIndex = 37;
@@ -552,7 +532,7 @@ namespace WorkProject1
             // 
             this.a_mass.AutoSize = true;
             this.a_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.a_mass.Location = new System.Drawing.Point(223, 154);
+            this.a_mass.Location = new System.Drawing.Point(220, 106);
             this.a_mass.Name = "a_mass";
             this.a_mass.Size = new System.Drawing.Size(16, 17);
             this.a_mass.TabIndex = 36;
@@ -564,7 +544,7 @@ namespace WorkProject1
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label7.Location = new System.Drawing.Point(8, 136);
+            this.label7.Location = new System.Drawing.Point(5, 88);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(153, 17);
             this.label7.TabIndex = 35;
@@ -574,7 +554,7 @@ namespace WorkProject1
             // 
             this.a_aft.AutoSize = true;
             this.a_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.a_aft.Location = new System.Drawing.Point(223, 136);
+            this.a_aft.Location = new System.Drawing.Point(220, 88);
             this.a_aft.Name = "a_aft";
             this.a_aft.Size = new System.Drawing.Size(16, 17);
             this.a_aft.TabIndex = 34;
@@ -586,7 +566,7 @@ namespace WorkProject1
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label6.Location = new System.Drawing.Point(8, 118);
+            this.label6.Location = new System.Drawing.Point(5, 69);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(187, 17);
             this.label6.TabIndex = 33;
@@ -596,7 +576,7 @@ namespace WorkProject1
             // 
             this.D_mass.AutoSize = true;
             this.D_mass.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.D_mass.Location = new System.Drawing.Point(223, 118);
+            this.D_mass.Location = new System.Drawing.Point(220, 70);
             this.D_mass.Name = "D_mass";
             this.D_mass.Size = new System.Drawing.Size(16, 17);
             this.D_mass.TabIndex = 32;
@@ -608,7 +588,7 @@ namespace WorkProject1
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label5.Location = new System.Drawing.Point(8, 100);
+            this.label5.Location = new System.Drawing.Point(5, 52);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(201, 17);
             this.label5.TabIndex = 31;
@@ -618,7 +598,7 @@ namespace WorkProject1
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label4.Location = new System.Drawing.Point(8, 82);
+            this.label4.Location = new System.Drawing.Point(5, 34);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(279, 17);
             this.label4.TabIndex = 30;
@@ -628,7 +608,7 @@ namespace WorkProject1
             // 
             this.D_aft.AutoSize = true;
             this.D_aft.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.D_aft.Location = new System.Drawing.Point(223, 100);
+            this.D_aft.Location = new System.Drawing.Point(220, 52);
             this.D_aft.Name = "D_aft";
             this.D_aft.Size = new System.Drawing.Size(16, 17);
             this.D_aft.TabIndex = 29;
@@ -640,7 +620,7 @@ namespace WorkProject1
             // 
             this.CalculateBtn.Enabled = false;
             this.CalculateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.CalculateBtn.Location = new System.Drawing.Point(11, 54);
+            this.CalculateBtn.Location = new System.Drawing.Point(8, 6);
             this.CalculateBtn.Name = "CalculateBtn";
             this.CalculateBtn.Size = new System.Drawing.Size(126, 25);
             this.CalculateBtn.TabIndex = 28;
@@ -762,7 +742,6 @@ namespace WorkProject1
             ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).EndInit();
             this.CirclePage.ResumeLayout(false);
             this.CirclePage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GPS_length)).EndInit();
             this.HaltPage.ResumeLayout(false);
             this.HaltPage.PerformLayout();
             this.ResumeLayout(false);
@@ -811,8 +790,6 @@ namespace WorkProject1
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel D_aft;
         private System.Windows.Forms.Button CalculateBtn;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.NumericUpDown GPS_length;
         private System.Windows.Forms.TabPage HaltPage;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.LinkLabel linkLabel1;
