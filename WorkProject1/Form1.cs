@@ -17,7 +17,7 @@ namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
-        static Version currentV = new Version("Prj1.6");
+        static Version currentV = new Version("Prj1.4");
 
         Reader reader;
         bool fileOpened = false;
@@ -419,7 +419,7 @@ namespace WorkProject1
             HttpResponseMessage response = await http.SendAsync(request);
             var jsonResponse = await response.Content.ReadAsStringAsync();
             Version newest = JsonSerializer.Deserialize<GithubTag[]>(jsonResponse, new JsonSerializerOptions() { IncludeFields = true }).Select((GithubTag g)=> new Version(g.name)).Where((Version v) => v.Name == "Prj1").FirstOrDefault();
-            if (newest.MainVersion > currentV.MainVersion && newest.SubVersion > 0) 
+            if (newest.MainVersion > currentV.MainVersion || newest.SubVersion > currentV.SubVersion) 
             { 
                 DialogResult dr = MessageBox.Show("Устаревшая версия\nОбновить?","Внимание!",MessageBoxButtons.YesNo,MessageBoxIcon.Information);
                 if(dr == DialogResult.Yes) System.Diagnostics.Process.Start($"https://github.com/PaulBazhankin/WorkProjects/releases/tag/{newest.FullName}");
