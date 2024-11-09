@@ -50,17 +50,48 @@ namespace WorkProject1
                 y_min = Math.Min(data[1].Min(), data[3].Min()),
                 x_max = Math.Max(data[0].Max(), data[2].Max()) - x_min + 40,
                 y_max = Math.Max(data[1].Max(), data[3].Max()) - y_min + 40,
-                factor = Math.Min(DiagramField.Width, DiagramField.Height)/*,
-                n_factor = DiagramField.Width < DiagramField.Height ? x_max - x_min : y_max - y_min*/;
+                n_factor, factor;
+            if(DiagramField.Width > DiagramField.Height)
+            {
+                decimal
+                    shape = y_max / x_max,
+                    w_shape = (decimal)DiagramField.Height / DiagramField.Width;
+                if(w_shape > shape)
+                {
+                    n_factor = x_max;
+                    factor = DiagramField.Width;
+                }
+                else
+                {
+                    n_factor = y_max;
+                    factor = DiagramField.Height;
+                }
+            }
+            else
+            {
+                decimal
+                    shape = y_max / x_max,
+                    w_shape = (decimal)DiagramField.Width / DiagramField.Height;
+                if (w_shape > shape)
+                {
+                    n_factor = y_max;
+                    factor = DiagramField.Height;
+                }
+                else
+                {
+                    n_factor = x_max;
+                    factor = DiagramField.Width;
+                }
+            }
             decimal[,] decimals = new decimal[4, data[0].Count()];
             for (int i = 0; i < decimals.GetLength(1); i++)
             {
-                decimals[0, i] = ResizeDecimal(data[0][i] - x_min, /*n_factor*/ x_max, factor) + 20;
-                decimals[1, i] = ResizeDecimal(data[1][i] - y_min, /*n_factor*/ y_max, factor) + 20;
-                decimals[2, i] = ResizeDecimal(data[2][i] - x_min, /*n_factor*/ x_max, factor) + 20;
-                decimals[3, i] = ResizeDecimal(data[3][i] - y_min, /*n_factor*/ y_max, factor) + 20;
+                decimals[0, i] = ResizeDecimal(data[0][i] - x_min, n_factor, factor) + 20;
+                decimals[1, i] = DiagramField.Height - ResizeDecimal(data[1][i] - y_min, n_factor, factor) - 20;
+                decimals[2, i] = ResizeDecimal(data[2][i] - x_min, n_factor, factor) + 20;
+                decimals[3, i] = DiagramField.Height - ResizeDecimal(data[3][i] - y_min, n_factor, factor) - 20;
             }
-            int l = (int)(factor / 15);
+            int l = (Math.Min(DiagramField.Width, DiagramField.Height) / 15);
             for (int i = l/2; i < DiagramField.Width; i += l)
             {
                 gr.DrawLine(Pens.Gray, i, 0, i, DiagramField.Height - 1);
@@ -84,7 +115,8 @@ namespace WorkProject1
             fileOpened = true;
             reader?.Dispose();
             reader = new Reader(OpenExcelFileDialog.FileName);
-            foreach(string sheet in reader.GetSheets())
+            SheetTextBox.Items.Clear();
+            foreach (string sheet in reader.GetSheets())
             {
                 SheetTextBox.Items.Add(sheet); SheetTextBox.SelectedIndex = 0;
             }
@@ -93,10 +125,14 @@ namespace WorkProject1
         private void LoadCellsBtn_Click(object sender, EventArgs e)
         {
             DiagramField.Image = null;
-            data[0] = new List<decimal>();
-            data[1] = new List<decimal>();
-            data[2] = new List<decimal>();
-            data[3] = new List<decimal>();
+            data[0] = data[0] ?? new List<decimal>();
+            data[1] = data[1] ?? new List<decimal>();
+            data[2] = data[2] ?? new List<decimal>();
+            data[3] = data[3] ?? new List<decimal>();
+            data[0].Clear();
+            data[1].Clear();
+            data[2].Clear();
+            data[3].Clear();
             dataGridView1.Rows.Clear(); //Выключаем все кнопки и поля ввода
             CalculateBtn.Enabled = false;
             LoadCellsBtn.Enabled = false;
@@ -242,6 +278,24 @@ namespace WorkProject1
 
         private void CalculateBtn_Click(object sender, EventArgs e)
         {//Расчеты (aft - Корма, nose - Нос, mass - ЦМ
+            decimal GNSS_len = Sqrt(Pow(data[2][0] - data[0][0], 0) + Pow(data[3][0] - data[1][0], 2));
+            { //расчет мгновенного курса
+                decimal heading = 0, i_heading = 0;
+                int I = 0;
+                do
+                {
+                    decimal dx = data[2][I] - data[0][I];
+                    decimal dy = data[3][I] - data[1][I];
+                    int sector = dy > 0 ?
+                        dx < 0 ? 4 : 1 :
+                        dx < 0 ? 3 : 2;
+                    heading = ATan2(dy, dx) / Pi * 180;
+                    if (sector == 4 || sector == 3) heading += 180;
+                    if (sector == 2) heading += 360;
+                    if (I == 0) i_heading = heading;
+                    I++;
+                } while ( Math.Abs(heading - i_heading) < 100);
+            }
             { //вычисление координат центра циркуляции Xc и Yc
                 decimal
                     Xc_aft = Sum(data[0].ToArray()) / data[0].Count,
@@ -261,13 +315,13 @@ namespace WorkProject1
             {
                 R_aft[i] = Sqrt(Pow(DX_aft[i], 2) + Pow(DY_aft[i], 2));
                 R_nose[i] = Sqrt(Pow(DX_nose[i], 2) + Pow(DY_nose[i], 2));
-                R_mass[i] = 0.5m * Sqrt(2 * Pow(R_aft[i], 2) + 2 * Pow(R_nose[i],2)-Pow(GPS_length.Value,2));
+                R_mass[i] = 0.5m * Sqrt(2 * Pow(R_aft[i], 2) + 2 * Pow(R_nose[i],2)-Pow(GNSS_len,2));
             }
             decimal[] alpha_aft = new decimal[R_aft.Length], alpha_mass = new decimal[R_nose.Length]; // вычисление Углов дрейфа
             for(int i = 0; i < alpha_aft.Length; i++)
             {
-                alpha_aft[i] = (Pi / 2) - ACos((Pow(R_aft[i], 2) - Pow(R_mass[i], 2) + 0.25m * Pow(GPS_length.Value, 2)) / (2 * R_aft[i] * GPS_length.Value));
-                alpha_mass[i] = (Pi / 2) - ACos((Pow(R_mass[i], 2) - Pow(R_nose[i], 2) + 0.25m * Pow(GPS_length.Value, 2)) / (2 * R_mass[i] * GPS_length.Value));
+                alpha_aft[i] = (Pi / 2) - ACos((Pow(R_aft[i], 2) - Pow(R_mass[i], 2) + 0.25m * Pow(GNSS_len, 2)) / (2 * R_aft[i] * GNSS_len));
+                alpha_mass[i] = (Pi / 2) - ACos((Pow(R_mass[i], 2) - Pow(R_nose[i], 2) + 0.25m * Pow(GNSS_len, 2)) / (2 * R_mass[i] * GNSS_len));
                 alpha_aft[i] *= 180 / Pi;
                 alpha_mass[i] *= 180 / Pi;
             }
@@ -334,6 +388,18 @@ namespace WorkProject1
         private void DiagramField_SizeChanged(object sender, EventArgs e)
         {
             if (data[3] != null && data[3].Count != 0) DrawVesselPath();
+        }
+
+        private void ExcelTab_DragDrop(object sender, DragEventArgs e)
+        {
+            OpenExcelFileDialog.FileName = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+            OpenExcelFileDialog_FileOK(sender, new CancelEventArgs(false));
+        }
+
+        private void ExcelTab_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+            else e.Effect = DragDropEffects.None;
         }
 
         private async void MainWindow_Shown(object sender, EventArgs e)
