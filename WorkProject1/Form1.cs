@@ -17,7 +17,7 @@ namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
-        static Version currentV = new Version("Prj1.5");
+        static Version currentV = new Version("Prj1.6");
 
         Reader reader;
         bool fileOpened = false;
