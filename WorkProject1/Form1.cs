@@ -17,7 +17,7 @@ namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
-        static Version currentV = new Version("Prj1.4");
+        static Version currentV = new Version("Prj1.6.1");
 
         Reader reader;
         bool fileOpened = false;
@@ -278,23 +278,46 @@ namespace WorkProject1
 
         private void CalculateBtn_Click(object sender, EventArgs e)
         {//Расчеты (aft - Корма, nose - Нос, mass - ЦМ
-            decimal GNSS_len = Sqrt(Pow(data[2][0] - data[0][0], 0) + Pow(data[3][0] - data[1][0], 2));
-            { //расчет мгновенного курса
-                decimal heading = 0, i_heading = 0;
-                int I = 0;
-                do
+            Drift_ValueChanged(sender, e);
+            decimal GNSS_len = 0;
+            {
+                for(int i = 0; i < data[0].Count; i++)
                 {
-                    decimal dx = data[2][I] - data[0][I];
-                    decimal dy = data[3][I] - data[1][I];
-                    int sector = dy > 0 ?
-                        dx < 0 ? 4 : 1 :
-                        dx < 0 ? 3 : 2;
-                    heading = ATan2(dy, dx) / Pi * 180;
-                    if (sector == 4 || sector == 3) heading += 180;
-                    if (sector == 2) heading += 360;
-                    if (I == 0) i_heading = heading;
-                    I++;
-                } while ( Math.Abs(heading - i_heading) < 100);
+                    GNSS_len += Sqrt(Pow(data[2][i] - data[0][i], 2) + Pow(data[3][i] - data[1][i], 2));
+                }
+                GNSS_len/= data[0].Count;
+            }
+            { //расчет мгновенного курса
+                int I = 0;
+                decimal heading = 0, i_heading = 0, M_Δ_heading = 0;
+                try
+                {
+                    do
+                    {
+                        decimal dx = data[2][I] - data[0][I];
+                        decimal dy = data[3][I] - data[1][I];
+                        int sector = dy > 0 ?
+                            dx < 0 ? 4 : 1 :
+                            dx < 0 ? 3 : 2;
+                        heading = ATan2(dy, dx) / Pi * 180;
+                        if (sector == 4 || sector == 3) heading += 180;
+                        if (sector == 2) heading += 360;
+                        if (I == 0) i_heading = heading;
+                        I++;
+                        if (heading - i_heading > 180) heading -= 360;
+                        if (heading - i_heading < -180) heading += 360;
+                        if (Math.Abs(heading - i_heading) > M_Δ_heading) M_Δ_heading = Math.Abs(heading - i_heading);
+                    } while (Math.Abs(heading - i_heading) < headingCutoff.Value);
+                    data[0].RemoveRange(0, I);
+                    data[1].RemoveRange(0, I);
+                    data[2].RemoveRange(0, I);
+                    data[3].RemoveRange(0, I);
+                    DrawVesselPath();
+                } catch (ArgumentOutOfRangeException)
+                {
+                    MessageBox.Show($"Значение точки установившейся циркуляции\nслишком велико, попробуйте\n{(int)M_Δ_heading} или меньше", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             { //вычисление координат центра циркуляции Xc и Yc
                 decimal
@@ -375,7 +398,17 @@ namespace WorkProject1
 
         private void Drift_ValueChanged(object sender, EventArgs e)
         {
-            for(int i = 1; i < data[0].Count; i++)
+            if (data[0].Count != data2[0].Count){
+                data[0].Clear();
+                data[0].AddRange(data2[0]);
+                data[1].Clear();
+                data[1].AddRange(data2[1]);
+                data[2].Clear();
+                data[2].AddRange(data2[2]);
+                data[3].Clear();
+                data[3].AddRange(data2[3]);
+            }
+            for (int i = 1; i < data[0].Count; i++)
             {
                 data[0][i] = data2[0][i] + DriftSpeed.Value * i * Cos(DriftAngle.Value / 180 * Pi);
                 data[1][i] = data2[1][i] + DriftSpeed.Value * i * Sin(DriftAngle.Value / 180 * Pi);

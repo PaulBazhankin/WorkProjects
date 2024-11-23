@@ -86,6 +86,8 @@ namespace WorkProject1
             this.label12 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label11 = new System.Windows.Forms.Label();
+            this.headingCutoff = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.DataTabs.SuspendLayout();
             this.DataPage.SuspendLayout();
@@ -98,6 +100,7 @@ namespace WorkProject1
             ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).BeginInit();
             this.CirclePage.SuspendLayout();
             this.HaltPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headingCutoff)).BeginInit();
             this.SuspendLayout();
             // 
             // OpenExcelFileDialog
@@ -437,6 +440,8 @@ namespace WorkProject1
             // 
             // CirclePage
             // 
+            this.CirclePage.Controls.Add(this.label10);
+            this.CirclePage.Controls.Add(this.headingCutoff);
             this.CirclePage.Controls.Add(this.m_an_mass);
             this.CirclePage.Controls.Add(this.m_an_aft);
             this.CirclePage.Controls.Add(this.m_d_mass);
@@ -714,6 +719,33 @@ namespace WorkProject1
             this.label11.TabIndex = 0;
             this.label11.Text = "Длина Тормозного пути (Корма)";
             // 
+            // headingCutoff
+            // 
+            this.headingCutoff.Location = new System.Drawing.Point(267, 6);
+            this.headingCutoff.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.headingCutoff.Name = "headingCutoff";
+            this.headingCutoff.Size = new System.Drawing.Size(120, 24);
+            this.headingCutoff.TabIndex = 43;
+            this.headingCutoff.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label10.Location = new System.Drawing.Point(158, 3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(106, 34);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "Точка начала\r\nциркуляции (°)";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -744,6 +776,7 @@ namespace WorkProject1
             this.CirclePage.PerformLayout();
             this.HaltPage.ResumeLayout(false);
             this.HaltPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headingCutoff)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -803,6 +836,8 @@ namespace WorkProject1
         private System.Windows.Forms.NumericUpDown DriftSpeed;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.NumericUpDown DriftAngle;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown headingCutoff;
     }
 }
 
