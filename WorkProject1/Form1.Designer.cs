@@ -58,11 +58,18 @@ namespace WorkProject1
             this.SheetErrorLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.DriftPage = new System.Windows.Forms.TabPage();
+            this.DriftAutoCalc = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.headingCutoffDrift = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
             this.DriftSpeed = new System.Windows.Forms.NumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.DriftAngle = new System.Windows.Forms.NumericUpDown();
             this.CirclePage = new System.Windows.Forms.TabPage();
+            this.label17 = new System.Windows.Forms.Label();
+            this.len_GNSS = new System.Windows.Forms.LinkLabel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.headingCutoff = new System.Windows.Forms.NumericUpDown();
             this.m_an_mass = new System.Windows.Forms.LinkLabel();
             this.m_an_aft = new System.Windows.Forms.LinkLabel();
             this.m_d_mass = new System.Windows.Forms.LinkLabel();
@@ -86,8 +93,6 @@ namespace WorkProject1
             this.label12 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label11 = new System.Windows.Forms.Label();
-            this.headingCutoff = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.DataTabs.SuspendLayout();
             this.DataPage.SuspendLayout();
@@ -96,11 +101,12 @@ namespace WorkProject1
             this.MainTabs.SuspendLayout();
             this.ExcelTab.SuspendLayout();
             this.DriftPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headingCutoffDrift)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriftSpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).BeginInit();
             this.CirclePage.SuspendLayout();
-            this.HaltPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.headingCutoff)).BeginInit();
+            this.HaltPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenExcelFileDialog
@@ -182,9 +188,9 @@ namespace WorkProject1
             this.label2.ForeColor = System.Drawing.SystemColors.Highlight;
             this.label2.Location = new System.Drawing.Point(9, 361);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(243, 17);
+            this.label2.Size = new System.Drawing.Size(327, 17);
             this.label2.TabIndex = 13;
-            this.label2.Text = "Автор - Павел Бажанкин 2023-2024";
+            this.label2.Text = "Версия: 6.1. Автор - Павел Бажанкин 2023-2024";
             // 
             // DataTabs
             // 
@@ -366,6 +372,9 @@ namespace WorkProject1
             // 
             // DriftPage
             // 
+            this.DriftPage.Controls.Add(this.DriftAutoCalc);
+            this.DriftPage.Controls.Add(this.label16);
+            this.DriftPage.Controls.Add(this.headingCutoffDrift);
             this.DriftPage.Controls.Add(this.label15);
             this.DriftPage.Controls.Add(this.DriftSpeed);
             this.DriftPage.Controls.Add(this.label14);
@@ -376,6 +385,45 @@ namespace WorkProject1
             this.DriftPage.TabIndex = 3;
             this.DriftPage.Text = "Хар. Сноса";
             this.DriftPage.UseVisualStyleBackColor = true;
+            // 
+            // DriftAutoCalc
+            // 
+            this.DriftAutoCalc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.DriftAutoCalc.Location = new System.Drawing.Point(162, 80);
+            this.DriftAutoCalc.Name = "DriftAutoCalc";
+            this.DriftAutoCalc.Size = new System.Drawing.Size(103, 24);
+            this.DriftAutoCalc.TabIndex = 47;
+            this.DriftAutoCalc.Text = "Авторасчет";
+            this.DriftAutoCalc.UseVisualStyleBackColor = true;
+            this.DriftAutoCalc.Click += new System.EventHandler(this.DriftAutoCalc_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label16.Location = new System.Drawing.Point(159, 13);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(106, 34);
+            this.label16.TabIndex = 46;
+            this.label16.Text = "Точка начала\r\nциркуляции (°)";
+            // 
+            // headingCutoffDrift
+            // 
+            this.headingCutoffDrift.Location = new System.Drawing.Point(268, 16);
+            this.headingCutoffDrift.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.headingCutoffDrift.Name = "headingCutoffDrift";
+            this.headingCutoffDrift.Size = new System.Drawing.Size(120, 24);
+            this.headingCutoffDrift.TabIndex = 45;
+            this.headingCutoffDrift.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.headingCutoffDrift.ValueChanged += new System.EventHandler(this.Drift_ValueChanged);
             // 
             // label15
             // 
@@ -440,6 +488,8 @@ namespace WorkProject1
             // 
             // CirclePage
             // 
+            this.CirclePage.Controls.Add(this.label17);
+            this.CirclePage.Controls.Add(this.len_GNSS);
             this.CirclePage.Controls.Add(this.label10);
             this.CirclePage.Controls.Add(this.headingCutoff);
             this.CirclePage.Controls.Add(this.m_an_mass);
@@ -464,6 +514,55 @@ namespace WorkProject1
             this.CirclePage.TabIndex = 1;
             this.CirclePage.Text = "Хар. Циркуляции";
             this.CirclePage.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label17.Location = new System.Drawing.Point(5, 123);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(127, 17);
+            this.label17.TabIndex = 46;
+            this.label17.Text = "Расчетная длина:";
+            // 
+            // len_GNSS
+            // 
+            this.len_GNSS.AutoSize = true;
+            this.len_GNSS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.len_GNSS.Location = new System.Drawing.Point(220, 123);
+            this.len_GNSS.Name = "len_GNSS";
+            this.len_GNSS.Size = new System.Drawing.Size(16, 17);
+            this.len_GNSS.TabIndex = 45;
+            this.len_GNSS.TabStop = true;
+            this.len_GNSS.Text = "0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label10.Location = new System.Drawing.Point(158, 3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(106, 34);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "Точка начала\r\nциркуляции (°)";
+            // 
+            // headingCutoff
+            // 
+            this.headingCutoff.Location = new System.Drawing.Point(267, 6);
+            this.headingCutoff.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.headingCutoff.Name = "headingCutoff";
+            this.headingCutoff.Size = new System.Drawing.Size(120, 24);
+            this.headingCutoff.TabIndex = 43;
+            this.headingCutoff.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.headingCutoff.ValueChanged += new System.EventHandler(this.headingCutoff_ValueChanged);
             // 
             // m_an_mass
             // 
@@ -719,33 +818,6 @@ namespace WorkProject1
             this.label11.TabIndex = 0;
             this.label11.Text = "Длина Тормозного пути (Корма)";
             // 
-            // headingCutoff
-            // 
-            this.headingCutoff.Location = new System.Drawing.Point(267, 6);
-            this.headingCutoff.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.headingCutoff.Name = "headingCutoff";
-            this.headingCutoff.Size = new System.Drawing.Size(120, 24);
-            this.headingCutoff.TabIndex = 43;
-            this.headingCutoff.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label10.Location = new System.Drawing.Point(158, 3);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(106, 34);
-            this.label10.TabIndex = 44;
-            this.label10.Text = "Точка начала\r\nциркуляции (°)";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -770,13 +842,14 @@ namespace WorkProject1
             this.ExcelTab.PerformLayout();
             this.DriftPage.ResumeLayout(false);
             this.DriftPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headingCutoffDrift)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriftSpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DriftAngle)).EndInit();
             this.CirclePage.ResumeLayout(false);
             this.CirclePage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.headingCutoff)).EndInit();
             this.HaltPage.ResumeLayout(false);
             this.HaltPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.headingCutoff)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -838,6 +911,11 @@ namespace WorkProject1
         private System.Windows.Forms.NumericUpDown DriftAngle;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.NumericUpDown headingCutoff;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.NumericUpDown headingCutoffDrift;
+        private System.Windows.Forms.Button DriftAutoCalc;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.LinkLabel len_GNSS;
     }
 }
 
