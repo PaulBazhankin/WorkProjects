@@ -190,7 +190,7 @@ namespace WorkProject1
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(327, 17);
             this.label2.TabIndex = 13;
-            this.label2.Text = "Версия: 6.1. Автор - Павел Бажанкин 2023-2024";
+            this.label2.Text = "Версия: ver. Автор - Павел Бажанкин 2023-2024";
             // 
             // DataTabs
             // 

@@ -17,7 +17,8 @@ namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
-        static Version currentV = new Version("Prj1.6.1");
+        static string versionStr = "6.2";
+        static Version currentV = new Version("Prj1."+versionStr);
 
         Reader reader;
         bool fileOpened = false;
@@ -513,6 +514,7 @@ namespace WorkProject1
 
         private async void MainWindow_Shown(object sender, EventArgs e)
         {
+            label2.Text = $"Версия: {versionStr}. Автор - Павел Бажанкин 2023-2024";
 #if !DEBUG
             Width = SystemInformation.VirtualScreen.Width;
             Height = SystemInformation.VirtualScreen.Height;
