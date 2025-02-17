@@ -18,8 +18,8 @@ namespace WorkProject1
             string result = "";
             do
             {
-                result = result.Insert(0,((char)('A' + column % 26 - 1)).ToString());
-                column /= 26;
+                result = result.Insert(0,((char)('A' + (column-1) % 26)).ToString());
+                column = (column - 1) / 26;
             } while (column > 0);
             return result;
         }

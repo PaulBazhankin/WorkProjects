@@ -396,6 +396,7 @@ namespace WorkProject1
                 data[2].RemoveRange(0, I);
                 data[3].RemoveRange(0, I);
                 DrawVesselPath();
+                label18.Text = $"Время циркуляции: {data[0].Count}";
             }
             catch (ArgumentOutOfRangeException)
             {

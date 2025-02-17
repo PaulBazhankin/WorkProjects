@@ -58,7 +58,7 @@ namespace WorkProject1
             this.SheetErrorLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.DriftPage = new System.Windows.Forms.TabPage();
-            this.DriftAutoCalc = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.headingCutoffDrift = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
@@ -85,6 +85,7 @@ namespace WorkProject1
             this.label4 = new System.Windows.Forms.Label();
             this.D_aft = new System.Windows.Forms.LinkLabel();
             this.CalculateBtn = new System.Windows.Forms.Button();
+            this.DriftAutoCalc = new System.Windows.Forms.Button();
             this.HaltPage = new System.Windows.Forms.TabPage();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.label13 = new System.Windows.Forms.Label();
@@ -247,7 +248,6 @@ namespace WorkProject1
             this.MainTabs.Controls.Add(this.ExcelTab);
             this.MainTabs.Controls.Add(this.DriftPage);
             this.MainTabs.Controls.Add(this.CirclePage);
-            this.MainTabs.Controls.Add(this.HaltPage);
             this.MainTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.MainTabs.Location = new System.Drawing.Point(0, 5);
             this.MainTabs.Name = "MainTabs";
@@ -372,7 +372,7 @@ namespace WorkProject1
             // 
             // DriftPage
             // 
-            this.DriftPage.Controls.Add(this.DriftAutoCalc);
+            this.DriftPage.Controls.Add(this.label18);
             this.DriftPage.Controls.Add(this.label16);
             this.DriftPage.Controls.Add(this.headingCutoffDrift);
             this.DriftPage.Controls.Add(this.label15);
@@ -386,16 +386,14 @@ namespace WorkProject1
             this.DriftPage.Text = "Хар. Сноса";
             this.DriftPage.UseVisualStyleBackColor = true;
             // 
-            // DriftAutoCalc
+            // label18
             // 
-            this.DriftAutoCalc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.DriftAutoCalc.Location = new System.Drawing.Point(162, 80);
-            this.DriftAutoCalc.Name = "DriftAutoCalc";
-            this.DriftAutoCalc.Size = new System.Drawing.Size(103, 24);
-            this.DriftAutoCalc.TabIndex = 47;
-            this.DriftAutoCalc.Text = "Авторасчет";
-            this.DriftAutoCalc.UseVisualStyleBackColor = true;
-            this.DriftAutoCalc.Click += new System.EventHandler(this.DriftAutoCalc_Click);
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(159, 47);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(145, 18);
+            this.label18.TabIndex = 48;
+            this.label18.Text = "Время циркуляции: ";
             // 
             // label16
             // 
@@ -732,6 +730,17 @@ namespace WorkProject1
             this.CalculateBtn.UseVisualStyleBackColor = true;
             this.CalculateBtn.Click += new System.EventHandler(this.CalculateBtn_Click);
             // 
+            // DriftAutoCalc
+            // 
+            this.DriftAutoCalc.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.DriftAutoCalc.Location = new System.Drawing.Point(162, 80);
+            this.DriftAutoCalc.Name = "DriftAutoCalc";
+            this.DriftAutoCalc.Size = new System.Drawing.Size(103, 24);
+            this.DriftAutoCalc.TabIndex = 47;
+            this.DriftAutoCalc.Text = "Авторасчет";
+            this.DriftAutoCalc.UseVisualStyleBackColor = true;
+            this.DriftAutoCalc.Click += new System.EventHandler(this.DriftAutoCalc_Click);
+            // 
             // HaltPage
             // 
             this.HaltPage.Controls.Add(this.linkLabel3);
@@ -753,7 +762,7 @@ namespace WorkProject1
             this.linkLabel3.AutoSize = true;
             this.linkLabel3.Location = new System.Drawing.Point(5, 121);
             this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(16, 18);
+            this.linkLabel3.Size = new System.Drawing.Size(13, 13);
             this.linkLabel3.TabIndex = 6;
             this.linkLabel3.TabStop = true;
             this.linkLabel3.Text = "0";
@@ -764,7 +773,7 @@ namespace WorkProject1
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(5, 103);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 18);
+            this.label13.Size = new System.Drawing.Size(40, 13);
             this.label13.TabIndex = 5;
             this.label13.Text = "Время";
             // 
@@ -783,7 +792,7 @@ namespace WorkProject1
             this.linkLabel2.AutoSize = true;
             this.linkLabel2.Location = new System.Drawing.Point(5, 85);
             this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(16, 18);
+            this.linkLabel2.Size = new System.Drawing.Size(13, 13);
             this.linkLabel2.TabIndex = 3;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "0";
@@ -794,7 +803,7 @@ namespace WorkProject1
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(5, 67);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(219, 18);
+            this.label12.Size = new System.Drawing.Size(159, 13);
             this.label12.TabIndex = 2;
             this.label12.Text = "Длина Тормозного пути (Нос)";
             // 
@@ -803,7 +812,7 @@ namespace WorkProject1
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(5, 49);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(16, 18);
+            this.linkLabel1.Size = new System.Drawing.Size(13, 13);
             this.linkLabel1.TabIndex = 1;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "0";
@@ -814,7 +823,7 @@ namespace WorkProject1
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(5, 31);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(237, 18);
+            this.label11.Size = new System.Drawing.Size(172, 13);
             this.label11.TabIndex = 0;
             this.label11.Text = "Длина Тормозного пути (Корма)";
             // 
@@ -822,7 +831,7 @@ namespace WorkProject1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.BackColor = System.Drawing.Color.LightBlue;
             this.ClientSize = new System.Drawing.Size(864, 404);
             this.Controls.Add(this.MainTabs);
             this.Controls.Add(this.DataTabs);
@@ -916,6 +925,7 @@ namespace WorkProject1
         private System.Windows.Forms.Button DriftAutoCalc;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.LinkLabel len_GNSS;
+        private System.Windows.Forms.Label label18;
     }
 }
 
