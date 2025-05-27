@@ -248,6 +248,7 @@ namespace WorkProject1
             this.MainTabs.Controls.Add(this.ExcelTab);
             this.MainTabs.Controls.Add(this.DriftPage);
             this.MainTabs.Controls.Add(this.CirclePage);
+            this.MainTabs.Controls.Add(this.HaltPage);
             this.MainTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.MainTabs.Location = new System.Drawing.Point(0, 5);
             this.MainTabs.Name = "MainTabs";

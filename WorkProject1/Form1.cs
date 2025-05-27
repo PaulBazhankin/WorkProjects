@@ -352,10 +352,10 @@ namespace WorkProject1
         private void CalculateAltBtn_Click(object sender, EventArgs e)
         {
             decimal s_aft = 0, s_nose = 0;
-            for(int i = 0; i < data[0].Count; i++)
+            for(int i = 1; i < data[0].Count; i++)
             {
-                s_aft += Sqrt(data[0][i] * data[0][i] + data[1][i] * data[1][i]);
-                s_nose += Sqrt(data[2][i] * data[2][i] + data[3][i] * data[3][i]);
+                s_aft += Sqrt(Pow(data[0][i] - data[0][i-1],2) + Pow(data[1][i] - data[1][i - 1], 2));
+                s_nose += Sqrt(Pow(data[2][i] - data[2][i - 1], 2) + Pow(data[3][i] - data[3][i - 1], 2));
             }
             linkLabel1.Text = s_aft.ToString("F2", cult);
             linkLabel2.Text = s_nose.ToString("F2", cult);
@@ -523,7 +523,7 @@ namespace WorkProject1
             DriftAutoCalc.Text = "Обрезать";
 #endif
 #if DEBUG
-            label2.Text += " DEBUG";
+            //label2.Text += " DEBUG";
 #endif
             HttpRequestMessage request = new HttpRequestMessage()
             {
