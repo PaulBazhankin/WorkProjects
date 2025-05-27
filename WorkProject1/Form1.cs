@@ -17,7 +17,7 @@ namespace WorkProject1
 {
     public partial class MainWindow : Form
     {
-        static string versionStr = "6.2";
+        static string versionStr = "7";
         static Version currentV = new Version("Prj1."+versionStr);
 
         Reader reader;
